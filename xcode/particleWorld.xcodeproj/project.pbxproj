@@ -16,12 +16,16 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
-		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
-		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		05C52898797549B8B2660C69 /* particleWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EC4BFAC0618C459C9A070FFA /* particleWorld_Prefix.pch */; };
-		94E2525869C34BD5947892B1 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95FD09B38D394692AB5C5844 /* CinderApp.icns */; };
-		F097CAE9B838475B80CA19EF /* Resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 46FE164C9BB642B7AB10190F /* Resources.h */; };
 		293ED00A7A6743CC8C65F5DF /* particleWorldApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9AD26F9403DD4B8D82C055BF /* particleWorldApp.cpp */; };
+		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		6601C0CD1CD955640099A1A9 /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0CB1CD955640099A1A9 /* spring.cpp */; };
+		6601C0D01CD969A00099A1A9 /* motion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0CE1CD969A00099A1A9 /* motion.cpp */; };
+		6601C0D31CD96BB50099A1A9 /* springMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0D11CD96BB50099A1A9 /* springMotion.cpp */; };
+		6601C0D61CD96E640099A1A9 /* flockingMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0D41CD96E640099A1A9 /* flockingMotion.cpp */; };
+		668EF9301CD6AE71009E0A2F /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 668EF92E1CD6AE71009E0A2F /* particle.cpp */; };
+		6694996E1CD6D57F00C56014 /* particleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6694996C1CD6D57F00C56014 /* particleController.cpp */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		94E2525869C34BD5947892B1 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95FD09B38D394692AB5C5844 /* CinderApp.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,15 +39,27 @@
 		00B995581B128DF400A5C623 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		18BE88CEADF64BB1B3F41BFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		46FE164C9BB642B7AB10190F /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
+		6601C0CB1CD955640099A1A9 /* spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = spring.cpp; path = ../src/spring.cpp; sourceTree = "<group>"; };
+		6601C0CC1CD955640099A1A9 /* spring.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = spring.hpp; path = ../src/spring.hpp; sourceTree = "<group>"; };
+		6601C0CE1CD969A00099A1A9 /* motion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = motion.cpp; path = ../src/motion.cpp; sourceTree = "<group>"; };
+		6601C0CF1CD969A00099A1A9 /* motion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = motion.hpp; path = ../src/motion.hpp; sourceTree = "<group>"; };
+		6601C0D11CD96BB50099A1A9 /* springMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = springMotion.cpp; path = ../src/springMotion.cpp; sourceTree = "<group>"; };
+		6601C0D21CD96BB50099A1A9 /* springMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = springMotion.hpp; path = ../src/springMotion.hpp; sourceTree = "<group>"; };
+		6601C0D41CD96E640099A1A9 /* flockingMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = flockingMotion.cpp; path = ../src/flockingMotion.cpp; sourceTree = "<group>"; };
+		6601C0D51CD96E640099A1A9 /* flockingMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = flockingMotion.hpp; path = ../src/flockingMotion.hpp; sourceTree = "<group>"; };
+		668EF92E1CD6AE71009E0A2F /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle.cpp; path = ../src/particle.cpp; sourceTree = "<group>"; };
+		668EF92F1CD6AE71009E0A2F /* particle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = particle.hpp; path = ../src/particle.hpp; sourceTree = "<group>"; };
+		6694996C1CD6D57F00C56014 /* particleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particleController.cpp; path = ../src/particleController.cpp; sourceTree = "<group>"; };
+		6694996D1CD6D57F00C56014 /* particleController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = particleController.hpp; path = ../src/particleController.hpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* particleWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = particleWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AD26F9403DD4B8D82C055BF /* particleWorldApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../src/particleWorldApp.cpp; sourceTree = "<group>"; name = particleWorldApp.cpp; };
-		46FE164C9BB642B7AB10190F /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../include/Resources.h; sourceTree = "<group>"; name = Resources.h; };
-		95FD09B38D394692AB5C5844 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; name = CinderApp.icns; };
-		18BE88CEADF64BB1B3F41BFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; name = Info.plist; };
-		EC4BFAC0618C459C9A070FFA /* particleWorld_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = particleWorld_Prefix.pch; sourceTree = "<group>"; name = particleWorld_Prefix.pch; };
+		95FD09B38D394692AB5C5844 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
+		9AD26F9403DD4B8D82C055BF /* particleWorldApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = particleWorldApp.cpp; path = ../src/particleWorldApp.cpp; sourceTree = "<group>"; };
+		EC4BFAC0618C459C9A070FFA /* particleWorld_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = particleWorld_Prefix.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +84,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01B97315FEAEA392516A2CEA /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Blocks;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				9AD26F9403DD4B8D82C055BF /* particleWorldApp.cpp */,
+				6694996C1CD6D57F00C56014 /* particleController.cpp */,
+				6601C0CE1CD969A00099A1A9 /* motion.cpp */,
+				6601C0D11CD96BB50099A1A9 /* springMotion.cpp */,
+				6601C0D41CD96E640099A1A9 /* flockingMotion.cpp */,
+				6601C0CB1CD955640099A1A9 /* spring.cpp */,
+				668EF92E1CD6AE71009E0A2F /* particle.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -124,16 +153,15 @@
 			name = particleWorld;
 			sourceTree = "<group>";
 		};
-		01B97315FEAEA392516A2CEA /* Blocks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Blocks;
-			sourceTree = "<group>";
-		};
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				6601C0D51CD96E640099A1A9 /* flockingMotion.hpp */,
+				6601C0D21CD96BB50099A1A9 /* springMotion.hpp */,
+				6601C0CF1CD969A00099A1A9 /* motion.hpp */,
+				6694996D1CD6D57F00C56014 /* particleController.hpp */,
+				668EF92F1CD6AE71009E0A2F /* particle.hpp */,
+				6601C0CC1CD955640099A1A9 /* spring.hpp */,
 				46FE164C9BB642B7AB10190F /* Resources.h */,
 				EC4BFAC0618C459C9A070FFA /* particleWorld_Prefix.pch */,
 			);
@@ -184,6 +212,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "particleWorld" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -219,7 +249,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6694996E1CD6D57F00C56014 /* particleController.cpp in Sources */,
+				6601C0D01CD969A00099A1A9 /* motion.cpp in Sources */,
 				293ED00A7A6743CC8C65F5DF /* particleWorldApp.cpp in Sources */,
+				6601C0CD1CD955640099A1A9 /* spring.cpp in Sources */,
+				6601C0D61CD96E640099A1A9 /* flockingMotion.cpp in Sources */,
+				6601C0D31CD96BB50099A1A9 /* springMotion.cpp in Sources */,
+				668EF9301CD6AE71009E0A2F /* particle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,17 +266,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = particleWorld_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = particleWorld_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -262,12 +298,12 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = particleWorld_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
 					"$(inherited)",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = particleWorld_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -284,7 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = "../../../Downloads/cinder_0.9.0_mac";
+				CINDER_PATH = ../../../Downloads/cinder_0.9.0_mac;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_TESTABILITY = YES;
@@ -302,7 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = "../../../Downloads/cinder_0.9.0_mac";
+				CINDER_PATH = ../../../Downloads/cinder_0.9.0_mac;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
