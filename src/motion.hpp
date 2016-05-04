@@ -27,6 +27,7 @@ class motion
 {
 public:
     list<particle *> particles;
+    bool running, drawing;
     
     motion();
     motion(list<particle *> &);

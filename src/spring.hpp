@@ -27,7 +27,6 @@ public:
     particle* a;
     particle* b;
     float k, d;
-    bool running;
     
     spring(particle*, particle*);
     

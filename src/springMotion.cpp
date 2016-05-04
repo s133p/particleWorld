@@ -17,10 +17,6 @@ springMotion::springMotion()
 springMotion::springMotion(list<particle*> & availableParticles) : motion(availableParticles)
 {
     
-    particle * p = new particle;
-    p->position = vec3();
-    p->moving = false;
-    
     for (auto it = particles.begin(); it != particles.end(); it++)
     {
         /*auto it2 = it;
@@ -30,8 +26,11 @@ springMotion::springMotion(list<particle*> & availableParticles) : motion(availa
             float l = length2(d);
             if (l < 200*200 && randInt(0,100) > 90)
             {*/
-                spring s( (*it), (p) );
-                springs.push_back(s);
+        particle * p = new particle;
+        p->position = vec3();
+        p->moving = false;
+        spring s( (*it), (p) );
+        springs.push_back(s);
           //  }
         //}
     }
@@ -39,13 +38,13 @@ springMotion::springMotion(list<particle*> & availableParticles) : motion(availa
 
 void springMotion::update()
 {
-    
+    if (!running) return;
     for (int i = 0; i < 1; i ++)
     {
         //std::random_shuffle ( springs.begin(), springs.end() );
         for (auto s : springs)
         {
-            s.update(2.0);
+            s.update(1.0);
         }
         motion::update();
     }
@@ -53,13 +52,15 @@ void springMotion::update()
 
 void springMotion::draw()
 {
-    gl::enableAdditiveBlending();
-    gl::color(.1, .1, .1);
+    if (!drawing) return;
+    /*gl::enableAlphaBlending();
+    gl::color(0, 0, 0, .01);
     for (auto s : springs)
     {
         s.draw();
     }
     gl::disableBlending();
-    gl::color(.9, .9, .9);
+    */
+    gl::color(.25, .25, .25);
     motion::draw();
 }

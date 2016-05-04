@@ -12,25 +12,24 @@ spring::spring(particle* aa, particle* bb)
 {
     a = aa;
     b = bb;
-    k = .01;
-    d = length(a->position - b->position)*randFloat(.2,0.45);
-    running = true;
+    k = .07;
+    d = length(a->position - b->position)*randFloat( .6, .9 );
 }
 
 void spring::update(float iterations)
 {
     
-    
     vec3 force = (b->position - a->position);
     float l = length(force);
     float x = d-l;
-    
-    /*if (x > 15) running = false;
-     if (x <= 15) running = true;
-     if (!running) return;*/
-    
-    force = normalize(force);
-    force *= -1 * k * x * (1.0f/iterations);
+    if (x < 2 && d == 0) { //"ARRIVE" spring
+        force = normalize(force);
+        force *= -1 * k * x * (1.0f/iterations);
+        force = force-a->velocity;
+    }else{ //NORMAL SPRING
+        force = normalize(force);
+        force *= -1 * k * x * (1.0f/iterations);
+    }
     
     a->addForce(force);
     b->addForce(-force);
@@ -38,6 +37,5 @@ void spring::update(float iterations)
 
 void spring::draw()
 {
-    if (!running) return;
     gl::drawLine(a->position, b->position);
 }

@@ -13,26 +13,26 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     this->tt = 0;
+    l = 1000000;
+    zoneRadiusSq = (a->radius*14)*(b->radius*14);
 }
 
 void flockPair::update()
 {
     vec3 force = (a->position - b->position);
-    float l = length2(force);
+    l = length2(force);
     //ss = true;
-    float zoneRadius = 50;
-    float zoneRadiusSq = zoneRadius*zoneRadius;
     
     if (l > zoneRadiusSq)
     {
         this->tt = 0;
         
     }else{
-        this-> tt = 0;
+        //this->tt = 0;
         float p = l/(zoneRadiusSq);
         
-        float inp = .5;
-        float midp = .75;
+        float inp = .3;
+        float midp = .55;
         float newl;
         
         
@@ -41,7 +41,7 @@ void flockPair::update()
             newl = p/inp;
             newl = cos( newl * M_PI) * 0.5 + 0.5 ;
             newl = newl*newl;
-            newl *= .7;
+            newl *= .4;
             
             force = normalize(force)*newl;
             a->addForce(force);
@@ -50,7 +50,7 @@ void flockPair::update()
             this->tt = 2;
             newl = p-midp;
             newl = ( 0.5 - cos( newl * M_PI * 2.0) * 0.5);
-            newl *= .3;
+            newl *= .1;
             
             
             force = normalize(force)*newl;
@@ -61,7 +61,7 @@ void flockPair::update()
             newl = p-(inp);
             newl = newl/((midp)-(inp));
             newl = ( 0.5 - cos( newl * M_PI * 2.0) * 0.5);
-            newl *= .08;
+            newl *= .075;
             
             force = b->velocity * newl;
             a->addForce(force);
@@ -75,9 +75,11 @@ void flockPair::update()
 void flockPair::draw()
 {
     //tt = 1;
-    vec3 force = (b->position - a->position);
-    float l = length2(force);
-    if (l < 50*50){
+    //vec3 force = (b->position - a->position);
+    //float l = length2(force);
+    //if (l < (zoneRadiusSq*.5)){
+    float newl = l/zoneRadiusSq;
+    if (newl > .4 && newl < .75){
         gl::drawLine(a->position, b->position);
     }
 }
@@ -106,11 +108,12 @@ flockingMotion::flockingMotion(list<particle*> & availableParticles) : motion(av
 
 void flockingMotion::update()
 {
+    if (!running) return;
     for (int i = 0; i < 1; i ++)
     {
-        for (auto f : flock)
+        for (auto f = flock.begin(); f != flock.end(); f++)
         {
-            f.update();
+            (*f).update();
         }
         motion::update();
     }
@@ -118,13 +121,17 @@ void flockingMotion::update()
 
 void flockingMotion::draw()
 {
-    gl::enableAdditiveBlending();
-    gl::color(.4, .4, .4);
-    for (auto f : flock)
+    if (!drawing) return;
+    if (0)
     {
-        f.draw();
+        //gl::enableAdditiveBlending();
+        gl::color(.6, .6, .6);
+        for (auto f = flock.begin(); f != flock.end(); f++)
+        {
+            (*f).draw();
+        }
+        //gl::disableBlending();
     }
-    gl::disableBlending();
-    gl::color(.9, .9, .9);
+    gl::color(.15, .15, .15);
     motion::draw();
 }

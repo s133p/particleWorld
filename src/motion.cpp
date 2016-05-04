@@ -15,6 +15,8 @@ motion::motion()
 
 motion::motion(list<particle*> & availableParticles)
 {
+    running = true;
+    drawing = true;
     for (auto it = availableParticles.begin(); it != availableParticles.end();)
     {
         particles.push_back(*it);
@@ -25,6 +27,7 @@ motion::motion(list<particle*> & availableParticles)
 
 void motion::update()
 {
+    if (!running) return;
     for (auto p : particles)
     {
         p->update();
@@ -33,6 +36,7 @@ void motion::update()
 
 void motion::draw()
 {
+    if (!drawing) return;
     for (auto p : particles)
     {
         p->draw();
