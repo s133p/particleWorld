@@ -8,6 +8,23 @@
 
 #include "flockingMotion.hpp"
 
+float sine(float x)
+{
+    x += M_PI/2.0;
+    const float B = 4/M_PI;
+    const float C = -4/(M_PI*M_PI);
+    
+    float y = B * x + C * x * abs(x);
+    
+//#ifdef EXTRA_PRECISION
+      const float Q = 0.775;
+    const float P = 0.225;
+    
+    y =  Q * y + P * y * abs(y);
+//#endif
+    return y;
+}
+
 flockPair::flockPair(particle* aa, particle* bb)
 {
     a = aa;
@@ -26,22 +43,23 @@ void flockPair::update()
     if (l > zoneRadiusSq)
     {
         this->tt = 0;
+        return;
         
     }else{
         //this->tt = 0;
         float p = l/(zoneRadiusSq);
         
-        float inp = .3;
-        float midp = .55;
+        float inp = .5;
+        float midp = .7;
         float newl;
         
         
         if (p < inp){ //repel
             this->tt = 1;
             newl = p/inp;
-            newl = cos( newl * M_PI) * 0.5 + 0.5 ;
+            newl = sine( newl * M_PI) * 0.5 + 0.5 ;
             newl = newl*newl;
-            newl *= .4;
+            newl *= .45;
             
             force = normalize(force)*newl;
             a->addForce(force);
@@ -49,8 +67,8 @@ void flockPair::update()
         }else if (p > midp){ // attract
             this->tt = 2;
             newl = p-midp;
-            newl = ( 0.5 - cos( newl * M_PI * 2.0) * 0.5);
-            newl *= .1;
+            newl = ( 0.5 - sine( newl * M_PI * 2.0) * 0.5);
+            newl *= .25;
             
             
             force = normalize(force)*newl;
@@ -60,8 +78,8 @@ void flockPair::update()
             this->tt = 3;
             newl = p-(inp);
             newl = newl/((midp)-(inp));
-            newl = ( 0.5 - cos( newl * M_PI * 2.0) * 0.5);
-            newl *= .075;
+            newl = ( 0.5 - sine( newl * M_PI * 2.0) * 0.5);
+            newl *= .015;
             
             force = b->velocity * newl;
             a->addForce(force);
@@ -106,16 +124,21 @@ flockingMotion::flockingMotion(list<particle*> & availableParticles) : motion(av
     
 }
 
-void flockingMotion::update()
+void flockingMotion::update(float forceScale)
 {
     if (!running) return;
     for (int i = 0; i < 1; i ++)
     {
+        motion::saveForce();
+        
         for (auto f = flock.begin(); f != flock.end(); f++)
         {
             (*f).update();
+            
         }
-        motion::update();
+        motion::update(forceScale);
+        
+        motion::avgForce();
     }
 }
 

@@ -50,6 +50,14 @@ void particleWorldApp::setup()
         }
     }
     
+    int i = 0;
+    for (auto it = voidPoints.begin(); it != voidPoints.end();)
+    {
+        if(i % 2 == 0) it = voidPoints.erase(it);
+        else it++;
+        i++;
+    }
+    
     //list<vec2> instinctPoints;
     iter = instinctImg.getIter();
     while( iter.line() ) {
@@ -62,30 +70,25 @@ void particleWorldApp::setup()
             }
         }
     }
-    
-    for (int i = 1; i < 1900; i++)
+    console() << voidPoints.size();
+    for (int i = 1; i < 2000; i++)
     {
         int z = 0;
         int randPoint = randInt(0, voidPoints.size());
         vec2 rp;
         for (auto it : voidPoints) { z++; if(z==randPoint) {rp=it;break;};}
-        particles.particleArray[i].position = vec3(rp.x, -rp.y, 0);
+        particles.particleArray[i].position = vec3(rp.x, -rp.y, randInt(-50, 50));
         particles.particleArray[i].prevPosition = particles.particleArray[i].position;
         particles.particleArray[i].drawing = true;
         particles.particleArray[i].moving = false;
     }
-    
-    
-    voidTex = gl::Texture2d::create( voidImg );
-    //voidTex->create(loadImage(loadAsset("void.png")));
-    
     gl::enableDepthWrite();
     gl::enableDepthRead();
 }
 
 void particleWorldApp::mouseDown( MouseEvent event )
 {
-    for (int i = 1; i < 1900; i++)
+    for (int i = 1; i < 2000; i++)
     {
         particles.particleArray[i].moving = true;
     }
@@ -98,7 +101,7 @@ void particleWorldApp::mouseDown( MouseEvent event )
 
 void particleWorldApp::update()
 {
-    if (getElapsedFrames() == 600)
+    if (getElapsedFrames() % 550 == 0)
     {
         for(auto & sp : particles.spTest->springs)
         {
@@ -106,13 +109,13 @@ void particleWorldApp::update()
             int randPoint = randInt(0, instinctPoints.size());
             vec2 rp;
             for (auto it : instinctPoints) { z++; if(z==randPoint) {rp=it;break;};}
-            sp.b->position = vec3(rp.x, -rp.y, 0);
+            sp.b->position = vec3(rp.x, -rp.y, randInt(-50, 50));
             sp.b->moving = false;
             sp.d = 0;
         }
     }
     
-    if (getElapsedFrames() == 1200)
+    if (getElapsedFrames() % 1200 == 0)
     {
         for(auto & sp : particles.spTest->springs)
         {
@@ -120,7 +123,7 @@ void particleWorldApp::update()
             int randPoint = randInt(0, voidPoints.size());
             vec2 rp;
             for (auto it : voidPoints) { z++; if(z==randPoint) {rp=it;break;};}
-            sp.b->position = vec3(rp.x, -rp.y, 0);
+            sp.b->position = vec3(rp.x, -rp.y, randInt(-50, 50));
             sp.b->moving = false;
             sp.d = 0;
         }
@@ -133,11 +136,13 @@ void particleWorldApp::draw()
 {
     gl::setMatrices(cam);
     gl::clear( Color( .98, .98, .98 ) );
+    gl::enableDepthRead();
+    gl::enableDepthWrite();
     
     
     //gl::color(.05, .05, .05);
     gl::translate(getWindowWidth()/2, getWindowHeight()/2, 0);
-    //gl::rotate(toRadians(app::getElapsedSeconds()*20.0f), vec3(0,1,0));
+    gl::rotate(toRadians(app::getElapsedSeconds()*20.0f), vec3(0,1,0));
     
     particles.draw();
     

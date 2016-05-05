@@ -12,8 +12,8 @@ spring::spring(particle* aa, particle* bb)
 {
     a = aa;
     b = bb;
-    k = .07;
-    d = length(a->position - b->position)*randFloat( .6, .9 );
+    k = .05;
+    d = randFloat(200,300);//length(a->position - b->position)*randFloat( .6, .9 );
 }
 
 void spring::update(float iterations)
@@ -22,13 +22,11 @@ void spring::update(float iterations)
     vec3 force = (b->position - a->position);
     float l = length(force);
     float x = d-l;
-    if (x < 2 && d == 0) { //"ARRIVE" spring
-        force = normalize(force);
-        force *= -1 * k * x * (1.0f/iterations);
-        force = force-a->velocity;
-    }else{ //NORMAL SPRING
-        force = normalize(force);
-        force *= -1 * k * x * (1.0f/iterations);
+    force = normalize(force);
+    force *= -1 * k * x * (1.0f/iterations);
+    
+    if (x < 1 &&d == 0) { //"ARRIVE" spring
+        force = force - a->velocity;
     }
     
     a->addForce(force);

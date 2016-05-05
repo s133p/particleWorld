@@ -32,7 +32,7 @@ public:
     springMotion();
     springMotion( list<particle *> & );
     
-    void update();
+    void update(float forceScale);
     void draw();
 };
 

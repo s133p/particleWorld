@@ -22,7 +22,7 @@ class particle
 {
 public:
     vec3 position, prevPosition;
-    vec3 force, velocity;
+    vec3 force, sForce, velocity;
     float radius, mass;
     float lerpControl;
     

@@ -32,7 +32,9 @@ public:
     motion();
     motion(list<particle *> &);
     
-    void update();
+    void update(float forceScale);
+    void saveForce();
+    void avgForce();
     void draw();
 };
 

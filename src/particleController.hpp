@@ -24,7 +24,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 2000
+#define MAX_PARTICLES 2100
 
 class particleController
 {
@@ -34,6 +34,7 @@ public:
     Perlin noise;
     flockingMotion * test;
     springMotion * spTest;
+    gl::BatchRef	mBox;
     
     particleController();
     

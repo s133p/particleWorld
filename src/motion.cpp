@@ -25,12 +25,35 @@ motion::motion(list<particle*> & availableParticles)
     }
 }
 
-void motion::update()
+void motion::saveForce()
 {
     if (!running) return;
     for (auto p : particles)
     {
-        p->update();
+        p->sForce = p->force;
+        p->force = vec3();
+        //p->update();
+    }
+}
+
+void motion::avgForce()
+{
+    if (!running) return;
+    for (auto p : particles)
+    {
+        p->force += p->sForce;
+        p->force *= 0.5f;
+        //p->update();
+    }
+}
+
+void motion::update(float forceScale)
+{
+    if (!running) return;
+    for (auto p : particles)
+    {
+        p->force *= forceScale;
+        //p->update();
     }
 }
 

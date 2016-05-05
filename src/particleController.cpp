@@ -11,6 +11,10 @@
 
 particleController::particleController()
 {
+    auto lambert = gl::ShaderDef().color();
+    gl::GlslProgRef shader = gl::getStockShader( lambert );
+    mBox = gl::Batch::create( geom::Cube().size(vec3(3)), shader );
+    
     noise = Perlin(4, 123123);
     
     //Set center Particle
@@ -59,19 +63,6 @@ particleController::particleController()
 
 void particleController::update()
 {
-    for (auto it : inactiveParticles)
-    {
-        if (it->moving)
-        {
-            if (getElapsedSeconds() < 8)
-            {
-                it->addForce( noise.dfBm(it->position*0.01f) );
-                it->force *= .05f;
-                it->update();
-            }
-            //if (getElapsedSeconds() > 15) it->update();
-        }
-    }
     
     //if (test != NULL && getElapsedSeconds() < 2.0)
     //{
@@ -79,7 +70,7 @@ void particleController::update()
         test->running = true;
     else if(getElapsedSeconds() < 18)
         test->running = false;
-    if (test->running) test->update();
+    if (test->running) test->update(.9);
     //}else if (test != NULL && test->particles.size() > 0)
     //{
     //    spTest = new springMotion(test->particles);
@@ -93,20 +84,41 @@ void particleController::update()
         spTest->running = true;
         spTest->drawing = false;
     }
-    if (spTest != NULL) spTest->update();
+    if (spTest != NULL) spTest->update(.3);
     //}
+    
+    for (auto it : inactiveParticles)
+    {
+        if (it->moving)
+        {
+            if (getElapsedSeconds() < 8)
+            {
+                it->addForce( noise.dfBm(it->position*0.01f) * 0.05f );
+            }
+                //it->force *= .05f;
+                it->update();
+            //}
+            //if (getElapsedSeconds() > 15) it->update();
+        }
+    }
 }
 
 void particleController::draw()
 {
-    gl::color(.1, .1, .1);
-    for (auto it : activeParticles)
+    gl::color(.3, .3, .3);
+    for (auto it : inactiveParticles)
     {
-        if (it->drawing)
-            it->draw();
+        if (!(it->drawing) ) continue;
+        //if (it->drawing)
+            //it->draw();
+        gl::pushMatrices();
+        gl::translate(it->position);
+        //gl::scale(vec3(it->radius));
+        mBox->draw();
+        gl::popMatrices();
     }
     //if (getElapsedSeconds() < 6)
-        test->draw();
+        //test->draw();
    //if (spTest != NULL)
    //     spTest->draw();
     /*else

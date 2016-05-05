@@ -23,6 +23,8 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+float sine(float);
+
 class flockPair
 {
 public:
@@ -47,7 +49,7 @@ public:
     flockingMotion();
     flockingMotion( list<particle *> & );
     
-    void update();
+    void update(float forceScale);
     void draw();
 };
 

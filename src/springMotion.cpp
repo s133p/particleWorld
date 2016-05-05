@@ -36,17 +36,23 @@ springMotion::springMotion(list<particle*> & availableParticles) : motion(availa
     }
 }
 
-void springMotion::update()
+void springMotion::update(float forceScale)
 {
     if (!running) return;
+    
     for (int i = 0; i < 1; i ++)
     {
+        motion::saveForce();
+        
         //std::random_shuffle ( springs.begin(), springs.end() );
         for (auto s : springs)
         {
             s.update(1.0);
         }
-        motion::update();
+        
+        motion::update(forceScale);
+        
+        motion::avgForce();
     }
 }
 

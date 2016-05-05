@@ -12,12 +12,12 @@
 particle::particle()
 {
     position = vec3(0, 0, 0);
-    radius = randFloat(3.5,5.5);
+    radius = randFloat(2.5,4.5);
     mass = radius*.4;
     
     moving = true;
     drawing = true;
-    lerpControl = 0.88f;
+    lerpControl = 0.85f;
 }
 
 void particle::addForce(vec3 f)
@@ -36,14 +36,14 @@ void particle::update()
     //force += vec3(0, -.01, 0);
     
     force /= mass;
-    if (length2(force) > .2*.2) force = normalize(force)*0.2f;
+    //if (length2(force) > .4*.4) force = normalize(force)*0.4f;
     
     vec3 targetVelocity = velocity;
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
     velocity *= .998;
-    if (length2(velocity) > 2*2) velocity = normalize(velocity)*2.0f;
+    if (length2(velocity) > 6*6) velocity = normalize(velocity)*6.0f;
     
     position += velocity;
     force = vec3();
