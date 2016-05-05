@@ -20,7 +20,7 @@ motion::motion(list<particle*> & availableParticles)
     for (auto it = availableParticles.begin(); it != availableParticles.end();)
     {
         particles.push_back(*it);
-        //it = availableParticles.erase(it);
+        //it = availableParticles.erase(it); //Erase when removing from container
         it++;
     }
 }
@@ -32,7 +32,6 @@ void motion::saveForce()
     {
         p->sForce = p->force;
         p->force = vec3();
-        //p->update();
     }
 }
 
@@ -42,8 +41,6 @@ void motion::avgForce()
     for (auto p : particles)
     {
         p->force += p->sForce;
-        p->force *= 0.5f;
-        //p->update();
     }
 }
 
@@ -53,15 +50,14 @@ void motion::update(float forceScale)
     for (auto p : particles)
     {
         p->force *= forceScale;
-        //p->update();
     }
 }
 
 void motion::draw()
 {
     if (!drawing) return;
-    for (auto p : particles)
+    /*for (auto p : particles)
     {
         p->draw();
-    }
+    }*/
 }

@@ -1,4 +1,5 @@
 #include <list>
+#include <vector>
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -26,8 +27,8 @@ class particleWorldApp : public App {
     Surface voidImg, instinctImg;
     gl::Texture2dRef voidTex;
     
-    list<vec2> instinctPoints;
-    list<vec2> voidPoints;
+    vector<vec2> instinctPoints;
+    vector<vec2> voidPoints;
 };
 
 void particleWorldApp::setup()
@@ -36,7 +37,6 @@ void particleWorldApp::setup()
     
     voidImg = loadImage( loadAsset("void.png") );
     instinctImg = loadImage( loadAsset("instinct.png") );
-    if (instinctImg.hasAlpha()) console() << "has alpha!" <<endl;
     
     Surface::Iter iter = voidImg.getIter();
     while( iter.line() ) {
@@ -50,15 +50,6 @@ void particleWorldApp::setup()
         }
     }
     
-    int i = 0;
-    for (auto it = voidPoints.begin(); it != voidPoints.end();)
-    {
-        if(i % 2 == 0) it = voidPoints.erase(it);
-        else it++;
-        i++;
-    }
-    
-    //list<vec2> instinctPoints;
     iter = instinctImg.getIter();
     while( iter.line() ) {
         while( iter.pixel() ) {
@@ -70,17 +61,16 @@ void particleWorldApp::setup()
             }
         }
     }
-    console() << voidPoints.size();
-    for (int i = 1; i < 2000; i++)
+    
+    
+    for (int i = 1; i < MAX_PARTICLES-100; i++)
     {
-        int z = 0;
         int randPoint = randInt(0, voidPoints.size());
-        vec2 rp;
-        for (auto it : voidPoints) { z++; if(z==randPoint) {rp=it;break;};}
+        vec2 rp = voidPoints[randPoint];
         particles.particleArray[i].position = vec3(rp.x, -rp.y, randInt(-50, 50));
         particles.particleArray[i].prevPosition = particles.particleArray[i].position;
         particles.particleArray[i].drawing = true;
-        particles.particleArray[i].moving = false;
+        particles.particleArray[i].moving = true;
     }
     gl::enableDepthWrite();
     gl::enableDepthRead();
@@ -88,10 +78,6 @@ void particleWorldApp::setup()
 
 void particleWorldApp::mouseDown( MouseEvent event )
 {
-    for (int i = 1; i < 2000; i++)
-    {
-        particles.particleArray[i].moving = true;
-    }
     
     if (getElapsedSeconds() > 18)
     {
@@ -105,11 +91,9 @@ void particleWorldApp::update()
     {
         for(auto & sp : particles.spTest->springs)
         {
-            int z = 0;
             int randPoint = randInt(0, instinctPoints.size());
-            vec2 rp;
-            for (auto it : instinctPoints) { z++; if(z==randPoint) {rp=it;break;};}
-            sp.b->position = vec3(rp.x, -rp.y, randInt(-50, 50));
+            vec2 rp = instinctPoints[randPoint];
+            sp.b->position = vec3(rp.x, -rp.y, randInt(-10, 10));
             sp.b->moving = false;
             sp.d = 0;
         }
@@ -119,11 +103,9 @@ void particleWorldApp::update()
     {
         for(auto & sp : particles.spTest->springs)
         {
-            int z = 0;
             int randPoint = randInt(0, voidPoints.size());
-            vec2 rp;
-            for (auto it : voidPoints) { z++; if(z==randPoint) {rp=it;break;};}
-            sp.b->position = vec3(rp.x, -rp.y, randInt(-50, 50));
+            vec2 rp = voidPoints[randPoint];
+            sp.b->position = vec3(rp.x, -rp.y, randInt(-20, 20));
             sp.b->moving = false;
             sp.d = 0;
         }
@@ -139,27 +121,16 @@ void particleWorldApp::draw()
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
-    
-    //gl::color(.05, .05, .05);
     gl::translate(getWindowWidth()/2, getWindowHeight()/2, 0);
-    gl::rotate(toRadians(app::getElapsedSeconds()*20.0f), vec3(0,1,0));
+    //gl::rotate(toRadians(app::getElapsedSeconds()*20.0f), vec3(0,1,0));
     
     particles.draw();
-    
-    /*gl::enableAlphaBlending();
-    gl::color(1, 1, 1);
-    //gl::disableDepthWrite();
-    gl::pushMatrices();
-    gl::setMatricesWindow( getWindowSize() );
-    gl::draw( voidTex );
-    gl::disableAlphaBlending();
-    gl::popMatrices();*/
 }
 
 CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(4) ), [&]( App::Settings *settings ) {
     
     settings->setWindowSize(1280, 800);
-    //settings->setHighDensityDisplayEnabled();
+    settings->setHighDensityDisplayEnabled();
     settings->setFrameRate(60.0);
     
 } )

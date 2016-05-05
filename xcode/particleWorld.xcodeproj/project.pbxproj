@@ -22,6 +22,8 @@
 		6601C0D01CD969A00099A1A9 /* motion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0CE1CD969A00099A1A9 /* motion.cpp */; };
 		6601C0D31CD96BB50099A1A9 /* springMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0D11CD96BB50099A1A9 /* springMotion.cpp */; };
 		6601C0D61CD96E640099A1A9 /* flockingMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6601C0D41CD96E640099A1A9 /* flockingMotion.cpp */; };
+		6602464D1CDAF2F800842C5B /* shader.frag in Resources */ = {isa = PBXBuildFile; fileRef = 6602464B1CDAF2F800842C5B /* shader.frag */; };
+		6602464E1CDAF2F800842C5B /* shader.vert in Resources */ = {isa = PBXBuildFile; fileRef = 6602464C1CDAF2F800842C5B /* shader.vert */; };
 		668EF9301CD6AE71009E0A2F /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 668EF92E1CD6AE71009E0A2F /* particle.cpp */; };
 		6694996E1CD6D57F00C56014 /* particleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6694996C1CD6D57F00C56014 /* particleController.cpp */; };
 		66949B0D1CD9C01400D9FA44 /* void.png in Resources */ = {isa = PBXBuildFile; fileRef = 66949B0C1CD9C01400D9FA44 /* void.png */; };
@@ -53,6 +55,8 @@
 		6601C0D21CD96BB50099A1A9 /* springMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = springMotion.hpp; path = ../src/springMotion.hpp; sourceTree = "<group>"; };
 		6601C0D41CD96E640099A1A9 /* flockingMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = flockingMotion.cpp; path = ../src/flockingMotion.cpp; sourceTree = "<group>"; };
 		6601C0D51CD96E640099A1A9 /* flockingMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = flockingMotion.hpp; path = ../src/flockingMotion.hpp; sourceTree = "<group>"; };
+		6602464B1CDAF2F800842C5B /* shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader.frag; path = ../assets/shader.frag; sourceTree = "<group>"; };
+		6602464C1CDAF2F800842C5B /* shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader.vert; path = ../assets/shader.vert; sourceTree = "<group>"; };
 		668EF92E1CD6AE71009E0A2F /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle.cpp; path = ../src/particle.cpp; sourceTree = "<group>"; };
 		668EF92F1CD6AE71009E0A2F /* particle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = particle.hpp; path = ../src/particle.hpp; sourceTree = "<group>"; };
 		6694996C1CD6D57F00C56014 /* particleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particleController.cpp; path = ../src/particleController.cpp; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				66949B0C1CD9C01400D9FA44 /* void.png */,
+				6602464B1CDAF2F800842C5B /* shader.frag */,
+				6602464C1CDAF2F800842C5B /* shader.vert */,
 				01B97315FEAEA392516A2CEA /* Blocks */,
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
@@ -241,6 +247,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6602464D1CDAF2F800842C5B /* shader.frag in Resources */,
+				6602464E1CDAF2F800842C5B /* shader.vert in Resources */,
 				94E2525869C34BD5947892B1 /* CinderApp.icns in Resources */,
 				66949B0D1CD9C01400D9FA44 /* void.png in Resources */,
 			);

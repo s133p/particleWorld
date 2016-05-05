@@ -30,9 +30,8 @@ class flockPair
 public:
     particle * a;
     particle * b;
-    int tt;
     float l;
-    float zoneRadius;
+    //float zoneRadius;
     float zoneRadiusSq;
     
     flockPair(particle *, particle *);

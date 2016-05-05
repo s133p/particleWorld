@@ -24,17 +24,19 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 2100
+#define MAX_PARTICLES 1300
 
 class particleController
 {
 public:
+    gl::VboRef			mInstanceDataVbo;
+    gl::BatchRef	mBox;
+    
     particle particleArray[MAX_PARTICLES];
     list<particle *> activeParticles, inactiveParticles;
     Perlin noise;
     flockingMotion * test;
     springMotion * spTest;
-    gl::BatchRef	mBox;
     
     particleController();
     

@@ -11,20 +11,10 @@
 
 particleController::particleController()
 {
-    auto lambert = gl::ShaderDef().color();
-    gl::GlslProgRef shader = gl::getStockShader( lambert );
-    mBox = gl::Batch::create( geom::Cube().size(vec3(3)), shader );
-    
     noise = Perlin(4, 123123);
     
-    //Set center Particle
-    particleArray[0].position = vec3();
-    particleArray[0].moving = false;
-    particleArray[0].drawing = false;
-    particleArray[0].radius = 10;
-    activeParticles.push_back(&particleArray[0]);
-    
-    int i = 1;
+    std::vector<vec3> positions;
+    int i = 0;
     for (; i < 0/*MAX_PARTICLES*/; i++)
     {
         vec4 circ = vec4(0,1, 0, 0);
@@ -51,41 +41,32 @@ particleController::particleController()
         particleArray[i].drawing = false;
         
         inactiveParticles.push_back(&particleArray[i]);
+        positions.push_back(particleArray[i].position);
     }
     
+    //Setup "Motions"
     test = new flockingMotion(inactiveParticles);
-    test->running = false;
-    spTest = NULL;// new springMotion(inactiveParticles);
-    //spTest->drawing = false;
+    test->running = true;
+    spTest = new springMotion(inactiveParticles);
     
-    console() << inactiveParticles.size() << endl;
+    //INSTANCTED DRAWING
+    gl::GlslProgRef shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Sphere().radius(4) ) ;
+    
+    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
+    geom::BufferLayout instanceDataLayout;
+    instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
+    mesh->appendVbo( instanceDataLayout, mInstanceDataVbo );
+    mBox = gl::Batch::create( mesh, shader, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
 }
 
 void particleController::update()
 {
+    float testP = lerp( 0.0f, 0.4f, min(max(getElapsedFrames()-180.0f, 0.0f)/400.0f, 1.0f) );
+    test->update(testP);
+    spTest->update( lerp(0.0f, 0.5f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    //if (test != NULL && getElapsedSeconds() < 2.0)
-    //{
-    if (getElapsedSeconds() > 5.5 && getElapsedSeconds() < 15)
-        test->running = true;
-    else if(getElapsedSeconds() < 18)
-        test->running = false;
-    if (test->running) test->update(.9);
-    //}else if (test != NULL && test->particles.size() > 0)
-    //{
-    //    spTest = new springMotion(test->particles);
-    //    test = NULL;
-    //}else if (spTest != NULL){
-    if (getElapsedSeconds() > 4.5 && spTest == NULL)
-        spTest = new springMotion(inactiveParticles);
-    
-    if (getElapsedSeconds() > 4.55 && spTest != NULL && getElapsedSeconds() < 25)
-    {
-        spTest->running = true;
-        spTest->drawing = false;
-    }
-    if (spTest != NULL) spTest->update(.3);
-    //}
+    vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
     
     for (auto it : inactiveParticles)
     {
@@ -95,28 +76,37 @@ void particleController::update()
             {
                 it->addForce( noise.dfBm(it->position*0.01f) * 0.05f );
             }
-                //it->force *= .05f;
-                it->update();
-            //}
-            //if (getElapsedSeconds() > 15) it->update();
+            
+            it->update();
+            *positions = it->position;
+            positions++;
         }
     }
+    mInstanceDataVbo->unmap();
 }
 
 void particleController::draw()
 {
-    gl::color(.3, .3, .3);
-    for (auto it : inactiveParticles)
+    gl::color(0, 0, 0);
+    //gl::scale(vec3(4.0));
+    mBox->drawInstanced(MAX_PARTICLES-100);
+    
+    
+    
+    
+    /*for (auto it : inactiveParticles)
     {
         if (!(it->drawing) ) continue;
         //if (it->drawing)
             //it->draw();
         gl::pushMatrices();
         gl::translate(it->position);
-        //gl::scale(vec3(it->radius));
+        gl::scale(vec3(it->radius));
         mBox->draw();
         gl::popMatrices();
-    }
+        //gl::drawLine(it->position, it->position+(it->velocity*2.0f));
+        //mBox->
+    }*/
     //if (getElapsedSeconds() < 6)
         //test->draw();
    //if (spTest != NULL)
