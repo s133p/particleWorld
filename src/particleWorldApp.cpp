@@ -37,13 +37,13 @@ void particleWorldApp::setup()
 {
     running = false;
     
-    shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
+    shader = gl::GlslProg::create(  loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
     
     cam = CameraPersp(1280, 800, 35);
     cam.setFarClip(20000);
     
-    voidImg = loadImage( loadAsset("void.png") );
-    instinctImg = loadImage( loadAsset("instinct.png") );
+    voidImg = loadImage( loadResource("void.png") );
+    instinctImg = loadImage( loadResource("instinct.png") );
     
     Surface::Iter iter = voidImg.getIter();
     while( iter.line() ) {

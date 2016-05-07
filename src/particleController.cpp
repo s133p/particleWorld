@@ -50,7 +50,7 @@ particleController::particleController()
     spTest = new springMotion(inactiveParticles);
     
     //INSTANCTED DRAWING
-    gl::GlslProgRef shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
+    gl::GlslProgRef shader = gl::GlslProg::create( loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
     gl::VboMeshRef mesh = gl::VboMesh::create( geom::Icosahedron() >> geom::Scale(1.5) ) ;
     
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
