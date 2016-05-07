@@ -18,23 +18,22 @@ springMotion::springMotion(list<particle*> & availableParticles) : motion(availa
 {
     int count = 0;
     particle * center = new particle;
-    center->position = vec3()-vec3(500,0,0);
+    center->position = vec3()-vec3(650,0,0);
     center->moving = false;
     for (auto it = particles.begin(); it != particles.end(); it++)
     {
         count++;
         if (count > particles.size()/2)
         {
-            console() << "fuck?" << endl;
             center = new particle;
-            center->position = vec3()+vec3(500,0,0);
+            center->position = vec3()+vec3(650,0,0);
             center->moving = false;
             count = -particles.size();
         }
         particle * p = *it;
         spring s( (center), (p) );
         springs.push_back(s);
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 20; i++)
         {
             count++;
             it++;

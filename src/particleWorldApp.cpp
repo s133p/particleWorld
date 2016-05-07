@@ -30,10 +30,13 @@ class particleWorldApp : public App {
     vector<vec2> instinctPoints;
     vector<vec2> voidPoints;
     gl::GlslProgRef shader;
+    bool running;
 };
 
 void particleWorldApp::setup()
 {
+    running = false;
+    
     shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
     
     cam = CameraPersp(1280, 800, 35);
@@ -69,10 +72,10 @@ void particleWorldApp::setup()
     
     for (int i = 1; i < MAX_PARTICLES-100; i++)
     {
-        int randPoint = randInt(0, voidPoints.size());
-        vec2 rp = voidPoints[randPoint];
-        particles.particleArray[i].position = vec3(rp.x, -rp.y, randInt(-50, 50));
-        particles.particleArray[i].prevPosition = particles.particleArray[i].position;
+        //int randPoint = randInt(0, voidPoints.size());
+        //vec2 rp = voidPoints[randPoint];
+        //particles.particleArray[i].position = vec3(rp.x, -rp.y, randInt(-50, 50));
+        //particles.particleArray[i].prevPosition = particles.particleArray[i].position;
         particles.particleArray[i].drawing = true;
         particles.particleArray[i].moving = true;
     }
@@ -83,9 +86,10 @@ void particleWorldApp::setup()
 void particleWorldApp::mouseDown( MouseEvent event )
 {
     
-    if (getElapsedSeconds() > 18)
+    if (getElapsedSeconds() > 1)
     {
-        particles.test->running = !particles.test->running;
+        running = !running;
+        //particles.test->running = !particles.test->running;
     }
 }
 
@@ -114,8 +118,10 @@ void particleWorldApp::update()
             sp.d = 0;
         }
     }*/
-    
-    particles.update();
+    if (running)
+    {
+        particles.update();
+    }
 }
 
 void particleWorldApp::draw()

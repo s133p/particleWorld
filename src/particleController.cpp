@@ -51,7 +51,7 @@ particleController::particleController()
     
     //INSTANCTED DRAWING
     gl::GlslProgRef shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
-    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Icosahedron() >> geom::Scale(2.0) ) ;
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Icosahedron() >> geom::Scale(1.5) ) ;
     
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
     geom::BufferLayout instanceDataLayout;
@@ -66,11 +66,11 @@ void particleController::update()
     //test->update(testP);
     //spTest->update( lerp(0.0f, 0.95f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    test->update(.2);
+    test->update(.25);
     spTest->update(.98);
     //spTest->update(.95/2);
     
-    //vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
+    vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
     
     for (auto it : inactiveParticles)
     {
@@ -82,11 +82,11 @@ void particleController::update()
             //}
             
             it->update();
-            //*positions = it->position;
-            //positions++;
+            *positions = it->position;
+            positions++;
         }
     }
-    //mInstanceDataVbo->unmap();
+    mInstanceDataVbo->unmap();
 }
 
 void particleController::draw()
@@ -99,7 +99,7 @@ void particleController::draw()
     spTest->draw();
     gl::color(.4, .4, .4);
     
-    //mBox->drawInstanced( (MAX_PARTICLES-100) );
+    mBox->drawInstanced( (MAX_PARTICLES-100) );
     
 }
 
