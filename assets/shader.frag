@@ -1,7 +1,5 @@
 #version 150
 
-uniform sampler2D uTex0;
-
 in vec4	Color;
 in vec3	Normal;
 

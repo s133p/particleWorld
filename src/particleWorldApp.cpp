@@ -35,7 +35,7 @@ class particleWorldApp : public App {
 
 void particleWorldApp::setup()
 {
-    running = false;
+    running = true;
     
     shader = gl::GlslProg::create(  loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
     
@@ -85,11 +85,10 @@ void particleWorldApp::setup()
 
 void particleWorldApp::mouseDown( MouseEvent event )
 {
-    
-    if (getElapsedSeconds() > 1)
+    if (getElapsedSeconds() > 5)
     {
-        running = !running;
-        //particles.test->running = !particles.test->running;
+        //running = !running;
+        particles.test->running = !particles.test->running;
     }
 }
 
@@ -132,17 +131,19 @@ void particleWorldApp::draw()
     gl::enableDepthWrite();
     
     gl::translate(getWindowWidth()/2, getWindowHeight()/2, -400);
-    //gl::rotate(toRadians(app::getElapsedSeconds()*5.0f), vec3(0,1,0));
+    //gl::rotate(toRadians(app::getElapsedSeconds()*12.0f), vec3(0,1,0));
     
+    if(1){
     gl::pushMatrices();
-    shader->bind();
+    
+    gl::ScopedGlslProg shade(shader);
     gl::translate(0,-getWindowHeight()/2, 0);
     gl::color(.75, .75, .75);
     gl::disableDepthWrite();
     gl::drawCube(vec3(), vec3(20000, 5,20000));
     gl::enableDepthWrite();
     gl::popMatrices();
-    //shader->
+    }
     
     particles.draw();
 }

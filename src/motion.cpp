@@ -56,8 +56,16 @@ void motion::update(float forceScale)
 void motion::draw()
 {
     if (!drawing) return;
-    /*for (auto p : particles)
+    
+    
+    //Draws "shadows"
+    /*gl::color(.3,.3,.3);
+    for (auto p : particles)
     {
-        p->draw();
+        gl::pushMatrices();
+        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-400,0) );
+        gl::rotate( toRadians(90.0f), vec3(1,0,0) );
+        gl::drawSolidCircle(vec2(), 3);
+        gl::popMatrices();
     }*/
 }

@@ -11,23 +11,12 @@
 
 particleController::particleController()
 {
-    noise = Perlin(4, 123123);
+    noise = Perlin(3, 123123);
     
     std::vector<vec3> positions;
     int i = 0;
-    for (; i < 0/*MAX_PARTICLES*/; i++)
-    {
-        vec4 circ = vec4(0,1, 0, 0);
-        mat4 ex = rotate( toRadians(i*(360/(float)MAX_PARTICLES )), vec3( 0, 0, 1 )  );
-        ex = scale(ex, vec3(200,200, 1));
-        circ = circ * ex;
-        
-        particleArray[i].position = vec3(circ.x, circ.y, randInt(0, 20));
-        particleArray[i].prevPosition = particleArray[i].position+(randVec3()*vec3(1.0));
-        particleArray[i].moving = true;
-        particleArray[i].drawing = false;
-        activeParticles.push_back(&particleArray[i]);
-    }
+    
+    //Set up Initial state
     for (; i < MAX_PARTICLES; i++)
     {
         vec4 circ = vec4(0,1, 0, 0);
@@ -50,8 +39,8 @@ particleController::particleController()
     spTest = new springMotion(inactiveParticles);
     
     //INSTANCTED DRAWING
-    gl::GlslProgRef shader = gl::GlslProg::create( loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
-    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Icosahedron() >> geom::Scale(1.5) ) ;
+    shader = gl::GlslProg::create( loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Cube() >> geom::Scale(10.5) ) ;
     
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
     geom::BufferLayout instanceDataLayout;
@@ -66,8 +55,8 @@ void particleController::update()
     //test->update(testP);
     //spTest->update( lerp(0.0f, 0.95f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    test->update(.25);
-    spTest->update(.98);
+    test->update(.2);
+    spTest->update(.9);
     //spTest->update(.95/2);
     
     vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
@@ -96,7 +85,12 @@ void particleController::draw()
     gl::disableBlending();
     gl::enableDepth();
     
-    spTest->draw();
+    //gl::color( .184, .671, 1.0);
+    //gl::drawSphere(vec3(), 200);
+    
+    //spTest->draw();
+    shader->bind();
+    test->draw();
     gl::color(.4, .4, .4);
     
     mBox->drawInstanced( (MAX_PARTICLES-100) );

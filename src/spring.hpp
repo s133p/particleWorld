@@ -27,6 +27,7 @@ public:
     particle* a;
     particle* b;
     float k, d;
+    float drawing;
     
     spring(particle*, particle*);
     

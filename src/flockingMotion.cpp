@@ -30,7 +30,7 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     l = 1000000;
-    zoneRadiusSq = (a->radius*10)*(b->radius*10);
+    zoneRadiusSq = (a->radius*12)*(b->radius*12);
 }
 
 void flockPair::update()
@@ -38,12 +38,22 @@ void flockPair::update()
     vec3 force = (a->position - b->position);
     l = length2(force);
     
+    
+    //Crowding
+    /*float radiusAdjustA = 1.0f-(min((float)a->neighbors, 30.0f)/75.0f);
+    //radiusAdjustA += 0.5f;
+    float radiusAdjustB = 1.0f-(min((float)b->neighbors, 30.0f)/75.0f);
+    //radiusAdjustB += 0.5f;
+    zoneRadiusSq = (a->radius*12*radiusAdjustA)*(b->radius*12*radiusAdjustB);*/
+
+    
     if (l > zoneRadiusSq) return;
-        
+    a->neighbors++;
+    b->neighbors++;
 
     float p = l/(zoneRadiusSq);
-    float inp = .5;
-    float midp = .7;
+    float inp = .55;
+    float midp = .75;
     float newl;
     
     if (p < inp){ //repel
@@ -123,6 +133,13 @@ void flockingMotion::update(float forceScale)
     motion::update(forceScale);
     
     motion::avgForce();
+    
+    for (auto f = flock.begin(); f != flock.end(); f++)
+    {
+        (*f).a->neighbors = 0;
+        (*f).b->neighbors = 0;
+        
+    }
 }
 
 void flockingMotion::draw()
@@ -138,6 +155,6 @@ void flockingMotion::draw()
         }
         //gl::disableBlending();
     }
-    gl::color(.15, .15, .15);
-    motion::draw();*/
+    gl::color(.15, .15, .15);*/
+    motion::draw();
 }

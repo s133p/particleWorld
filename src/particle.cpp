@@ -18,6 +18,7 @@ particle::particle()
     moving = true;
     drawing = true;
     lerpControl = 0.8f;
+    neighbors = 0;
 }
 
 void particle::addForce(vec3 f)
@@ -34,9 +35,9 @@ void particle::update()
     
     
     //force += vec3(0, -.04, 0); //GRAVITY
-    vec3 grav = vec3()-position;
+    /*vec3 grav = vec3()-position;
     grav = normalize(grav) * 0.15f;
-    force += grav;
+    force += grav;*/
     
     force /= mass;
     //if (length2(force) > .4*.4) force = normalize(force)*0.4f;
@@ -47,7 +48,7 @@ void particle::update()
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
-    velocity *= .998;
+    velocity *= .995;
     if (length2(velocity) > 8*8) velocity = normalize(velocity)*8.0f;
     
     position += velocity;

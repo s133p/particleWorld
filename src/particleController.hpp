@@ -24,13 +24,14 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 1500
+#define MAX_PARTICLES 1600
 
 class particleController
 {
 public:
     gl::VboRef			mInstanceDataVbo;
     gl::BatchRef	mBox;
+    gl::GlslProgRef shader;
     
     particle particleArray[MAX_PARTICLES];
     list<particle *> activeParticles, inactiveParticles;

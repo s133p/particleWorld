@@ -25,6 +25,7 @@ public:
     vec3 force, sForce, velocity;
     float radius, mass;
     float lerpControl;
+    int neighbors;
     
     bool moving;
     bool drawing;
