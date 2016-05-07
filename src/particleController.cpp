@@ -51,7 +51,7 @@ particleController::particleController()
     
     //INSTANCTED DRAWING
     gl::GlslProgRef shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
-    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Sphere().radius(4) ) ;
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Icosahedron() >> geom::Scale(2.0) ) ;
     
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
     geom::BufferLayout instanceDataLayout;
@@ -62,61 +62,49 @@ particleController::particleController()
 
 void particleController::update()
 {
-    float testP = lerp( 0.0f, 0.4f, min(max(getElapsedFrames()-180.0f, 0.0f)/400.0f, 1.0f) );
-    test->update(testP);
-    spTest->update( lerp(0.0f, 0.5f, min((getElapsedFrames()/180.0f), 1.0f) ));
+    //float testP = lerp( 0.0f, 0.4f, min(max(getElapsedFrames()-180.0f, 0.0f)/400.0f, 1.0f) );
+    //test->update(testP);
+    //spTest->update( lerp(0.0f, 0.95f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
+    test->update(.2);
+    spTest->update(.98);
+    //spTest->update(.95/2);
+    
+    //vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
     
     for (auto it : inactiveParticles)
     {
         if (it->moving)
         {
-            if (getElapsedSeconds() < 8)
-            {
-                it->addForce( noise.dfBm(it->position*0.01f) * 0.05f );
-            }
+            //if (getElapsedSeconds() < 8)
+            //{
+                //it->addForce( noise.dfBm(it->position*0.01f) * 0.05f );
+            //}
             
             it->update();
-            *positions = it->position;
-            positions++;
+            //*positions = it->position;
+            //positions++;
         }
     }
-    mInstanceDataVbo->unmap();
+    //mInstanceDataVbo->unmap();
 }
 
 void particleController::draw()
 {
-    gl::color(0, 0, 0);
-    //gl::scale(vec3(4.0));
-    mBox->drawInstanced(MAX_PARTICLES-100);
+
+    //gl::scale(vec3(0.9));
+    gl::disableBlending();
+    gl::enableDepth();
     
+    spTest->draw();
+    gl::color(.4, .4, .4);
     
+    //mBox->drawInstanced( (MAX_PARTICLES-100) );
     
-    
-    /*for (auto it : inactiveParticles)
-    {
-        if (!(it->drawing) ) continue;
-        //if (it->drawing)
-            //it->draw();
-        gl::pushMatrices();
-        gl::translate(it->position);
-        gl::scale(vec3(it->radius));
-        mBox->draw();
-        gl::popMatrices();
-        //gl::drawLine(it->position, it->position+(it->velocity*2.0f));
-        //mBox->
-    }*/
-    //if (getElapsedSeconds() < 6)
-        //test->draw();
-   //if (spTest != NULL)
-   //     spTest->draw();
-    /*else
-    {
-        for (auto it : inactiveParticles)
-        {
-            if (it->drawing)
-                it->draw();
-        }
-    }*/
 }
+
+
+
+
+
+

@@ -13,11 +13,11 @@ particle::particle()
 {
     position = vec3(0, 0, 0);
     radius = 4;//randFloat(3.5,5.5);
-    mass = radius*.5;
+    mass = radius*.6;
     
     moving = true;
     drawing = true;
-    lerpControl = 0.95f;
+    lerpControl = 0.8f;
 }
 
 void particle::addForce(vec3 f)
@@ -34,6 +34,9 @@ void particle::update()
     
     
     //force += vec3(0, -.04, 0); //GRAVITY
+    vec3 grav = vec3()-position;
+    grav = normalize(grav) * 0.15f;
+    force += grav;
     
     force /= mass;
     //if (length2(force) > .4*.4) force = normalize(force)*0.4f;

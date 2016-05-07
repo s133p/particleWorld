@@ -29,11 +29,15 @@ class particleWorldApp : public App {
     
     vector<vec2> instinctPoints;
     vector<vec2> voidPoints;
+    gl::GlslProgRef shader;
 };
 
 void particleWorldApp::setup()
 {
+    shader = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
+    
     cam = CameraPersp(1280, 800, 35);
+    cam.setFarClip(20000);
     
     voidImg = loadImage( loadAsset("void.png") );
     instinctImg = loadImage( loadAsset("instinct.png") );
@@ -87,7 +91,7 @@ void particleWorldApp::mouseDown( MouseEvent event )
 
 void particleWorldApp::update()
 {
-    if (getElapsedFrames() % 550 == 0)
+    /*if (getElapsedFrames() % 550 == 0)
     {
         for(auto & sp : particles.spTest->springs)
         {
@@ -109,7 +113,7 @@ void particleWorldApp::update()
             sp.b->moving = false;
             sp.d = 0;
         }
-    }
+    }*/
     
     particles.update();
 }
@@ -121,8 +125,18 @@ void particleWorldApp::draw()
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
-    gl::translate(getWindowWidth()/2, getWindowHeight()/2, 0);
-    //gl::rotate(toRadians(app::getElapsedSeconds()*20.0f), vec3(0,1,0));
+    gl::translate(getWindowWidth()/2, getWindowHeight()/2, -400);
+    //gl::rotate(toRadians(app::getElapsedSeconds()*5.0f), vec3(0,1,0));
+    
+    gl::pushMatrices();
+    shader->bind();
+    gl::translate(0,-getWindowHeight()/2, 0);
+    gl::color(.75, .75, .75);
+    gl::disableDepthWrite();
+    gl::drawCube(vec3(), vec3(20000, 5,20000));
+    gl::enableDepthWrite();
+    gl::popMatrices();
+    //shader->
     
     particles.draw();
 }

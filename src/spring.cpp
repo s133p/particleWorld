@@ -12,8 +12,8 @@ spring::spring(particle* aa, particle* bb)
 {
     a = aa;
     b = bb;
-    k = .02;
-    d = randFloat(200,300);//length(a->position - b->position)*randFloat( .6, .9 );
+    k = .03;
+    d = 2.2;//length(a->position - b->position)*randFloat( .6, .9 );
 }
 
 void spring::update(float iterations)
@@ -26,7 +26,7 @@ void spring::update(float iterations)
     float f = -1 * k * x * (1.0f/iterations);
     force *= f;
     
-    if (x < 1 &&d == 0) { //"ARRIVE" spring
+    if (x < 1 && d == 0) { //"ARRIVE" spring
         force = force - a->velocity;
     }
     
@@ -36,5 +36,6 @@ void spring::update(float iterations)
 
 void spring::draw()
 {
-    gl::drawLine(a->position, b->position);
+    if (a->drawing && b->drawing)
+        gl::drawLine(a->position, b->position);
 }

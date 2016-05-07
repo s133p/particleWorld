@@ -24,7 +24,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 1300
+#define MAX_PARTICLES 1500
 
 class particleController
 {
