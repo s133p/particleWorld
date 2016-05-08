@@ -12,7 +12,7 @@
 particle::particle()
 {
     position = vec3(0, 0, 0);
-    radius = 4;//randFloat(3.5,5.5);
+    radius = randFloat(1.0,2.0);
     mass = radius*.6;
     
     moving = true;
@@ -48,7 +48,7 @@ void particle::update()
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
-    velocity *= .995;
+    velocity *= .998;
     if (length2(velocity) > 8*8) velocity = normalize(velocity)*8.0f;
     
     position += velocity;
@@ -57,8 +57,8 @@ void particle::update()
 
 void particle::draw()
 {
-    if (!drawing) return;
+    //if (!drawing) return;
     
-    //gl::drawCube(position, vec3(1)*radius);
+    gl::drawCube(position, vec3(30));
     //gl::drawSolidCircle(vec2(position.x, position.z), radius);
 }

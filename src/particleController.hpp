@@ -6,6 +6,11 @@
 //
 //
 
+/*
+    
+ 
+ */
+
 #ifndef particleController_hpp
 #define particleController_hpp
 
@@ -24,7 +29,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 1600
+#define MAX_PARTICLES 1200
 
 class particleController
 {

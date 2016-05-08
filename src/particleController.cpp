@@ -13,7 +13,7 @@ particleController::particleController()
 {
     noise = Perlin(3, 123123);
     
-    std::vector<vec3> positions;
+    std::vector<vec4> positions;
     int i = 0;
     
     //Set up Initial state
@@ -30,7 +30,8 @@ particleController::particleController()
         particleArray[i].drawing = false;
         
         inactiveParticles.push_back(&particleArray[i]);
-        positions.push_back(particleArray[i].position);
+        vec4 p = vec4(particleArray[i].position, particleArray[i].radius);
+        positions.push_back( p );
     }
     
     //Setup "Motions"
@@ -40,11 +41,11 @@ particleController::particleController()
     
     //INSTANCTED DRAWING
     shader = gl::GlslProg::create( loadResource( "shader.vert" ), loadResource( "shader.frag" ) );
-    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Cube() >> geom::Scale(10.5) ) ;
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Cube() >> geom::Scale(2.0) ) ;
     
-    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_STREAM_DRAW );
+    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), positions.data(), GL_STREAM_DRAW );
     geom::BufferLayout instanceDataLayout;
-    instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
+    instanceDataLayout.append( geom::Attrib::CUSTOM_0, 4, sizeof(vec4), 0, 1 /* per instance */ );
     mesh->appendVbo( instanceDataLayout, mInstanceDataVbo );
     mBox = gl::Batch::create( mesh, shader, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
 }
@@ -55,11 +56,11 @@ void particleController::update()
     //test->update(testP);
     //spTest->update( lerp(0.0f, 0.95f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    test->update(.2);
-    spTest->update(.9);
+    test->update(.7);
+    spTest->update(.95);
     //spTest->update(.95/2);
     
-    vec3 *positions = (vec3*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
+    vec4 *positions = (vec4*)mInstanceDataVbo->map(GL_WRITE_ONLY);//mInstanceDataVbo->mapReplace();
     
     for (auto it : inactiveParticles)
     {
@@ -71,7 +72,8 @@ void particleController::update()
             //}
             
             it->update();
-            *positions = it->position;
+            *positions = vec4(it->position, it->radius);
+            
             positions++;
         }
     }

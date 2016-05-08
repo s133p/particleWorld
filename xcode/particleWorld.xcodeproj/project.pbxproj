@@ -28,6 +28,7 @@
 		6694996E1CD6D57F00C56014 /* particleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6694996C1CD6D57F00C56014 /* particleController.cpp */; };
 		66949B0D1CD9C01400D9FA44 /* void.png in Resources */ = {isa = PBXBuildFile; fileRef = 66949B0C1CD9C01400D9FA44 /* void.png */; };
 		66B849BB1CDDB5960040046C /* instinct.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B849BA1CDDB5960040046C /* instinct.png */; };
+		66C0E4F01CDFCFB8002A8CDB /* VoidResearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C0E4EF1CDFCFB8002A8CDB /* VoidResearch.png */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		94E2525869C34BD5947892B1 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95FD09B38D394692AB5C5844 /* CinderApp.icns */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		6694996D1CD6D57F00C56014 /* particleController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = particleController.hpp; path = ../src/particleController.hpp; sourceTree = "<group>"; };
 		66949B0C1CD9C01400D9FA44 /* void.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = void.png; path = ../assets/void.png; sourceTree = "<group>"; };
 		66B849BA1CDDB5960040046C /* instinct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = instinct.png; path = ../assets/instinct.png; sourceTree = "<group>"; };
+		66C0E4EF1CDFCFB8002A8CDB /* VoidResearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = VoidResearch.png; path = ../assets/VoidResearch.png; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* particleWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = particleWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95FD09B38D394692AB5C5844 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
 		9AD26F9403DD4B8D82C055BF /* particleWorldApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = particleWorldApp.cpp; path = ../src/particleWorldApp.cpp; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		29B97314FDCFA39411CA2CEA /* particleWorld */ = {
 			isa = PBXGroup;
 			children = (
+				66C0E4EF1CDFCFB8002A8CDB /* VoidResearch.png */,
 				66B849BA1CDDB5960040046C /* instinct.png */,
 				66949B0C1CD9C01400D9FA44 /* void.png */,
 				6602464B1CDAF2F800842C5B /* shader.frag */,
@@ -250,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66C0E4F01CDFCFB8002A8CDB /* VoidResearch.png in Resources */,
 				6602464D1CDAF2F800842C5B /* shader.frag in Resources */,
 				6602464E1CDAF2F800842C5B /* shader.vert in Resources */,
 				66B849BB1CDDB5960040046C /* instinct.png in Resources */,

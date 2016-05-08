@@ -22,6 +22,7 @@ springMotion::springMotion(list<particle*> & availableParticles) : motion(availa
     particle * center = new particle;
     center->position = vec3()-vec3(0,0,0);
     center->moving = false;
+    
     for (auto it = particles.begin(); it != particles.end(); it++)
     {
         /*count++;
@@ -68,14 +69,14 @@ void springMotion::draw()
 {
     
     if (!drawing) return;
-    gl::color( 1, .514, .184);
+    /*gl::color( 1, .514, .184);
     int count = 0;
     for (auto & s : springs)
     {
         //if (count > springs.size()/2) gl::color( .184, .671, 1.0);
         s.draw();
         //count++;
-    }
-    //motion::draw();
+    }*/
+    motion::draw();
     
 }

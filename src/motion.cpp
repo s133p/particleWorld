@@ -59,13 +59,13 @@ void motion::draw()
     
     
     //Draws "shadows"
-    /*gl::color(.3,.3,.3);
+    gl::color(.3,.3,.3);
     for (auto p : particles)
     {
         gl::pushMatrices();
-        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-400,0) );
+        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-390,0) );
         gl::rotate( toRadians(90.0f), vec3(1,0,0) );
-        gl::drawSolidCircle(vec2(), 3);
+        gl::drawSolidCircle(vec2(), p->radius);
         gl::popMatrices();
-    }*/
+    }
 }

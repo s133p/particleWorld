@@ -26,9 +26,9 @@ void spring::update(float iterations)
     force = normalize(force);
     float f = -1 * k * x;
     force *= f;
-    //force -= (0.05f * (a->velocity - b->velocity));
+    force -= (0.07f * (a->velocity - b->velocity));
     
-    if (x < 1 && d == 0) { //"ARRIVE" spring
+    if (x < 16 && d == 0) { //"ARRIVE" spring
         force = force - a->velocity;
     }
     
