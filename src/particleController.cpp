@@ -11,13 +11,14 @@
 
 particleController::particleController()
 {
-    noise = Perlin(3, 123123);
+    int i = 0;
+    noise = Perlin(4, 123123);
     
     std::vector<vec4> positions;
-    int i = 0;
+    //for (i=0; i < MAX_PARTICLES; i++) positions.push_back( vec4(0,0,0,2) );
     
     //Set up Initial state
-    for (; i < MAX_PARTICLES; i++)
+    for (i=0; i < MAX_PARTICLES; i++)
     {
         vec4 circ = vec4(0,1, 0, 0);
         mat4 ex = rotate( toRadians(i*(360/(float)MAX_PARTICLES )), vec3( 0, 0, 1 )  );
@@ -56,7 +57,7 @@ void particleController::update()
     //test->update(testP);
     //spTest->update( lerp(0.0f, 0.95f, min((getElapsedFrames()/180.0f), 1.0f) ));
     
-    test->update(.7);
+    test->update(.85);
     spTest->update(.95);
     //spTest->update(.95/2);
     
@@ -68,7 +69,7 @@ void particleController::update()
         {
             //if (getElapsedSeconds() < 8)
             //{
-                //it->addForce( noise.dfBm(it->position*0.01f) * 0.05f );
+                it->addForce( noise.dfBm(it->position*0.03f) * 0.06f );
             //}
             
             it->update();
@@ -95,7 +96,7 @@ void particleController::draw()
     test->draw();
     gl::color(.4, .4, .4);
     
-    mBox->drawInstanced( (MAX_PARTICLES-100) );
+    mBox->drawInstanced( inactiveParticles.size() );
     
 }
 

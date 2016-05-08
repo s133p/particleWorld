@@ -30,7 +30,7 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     l = 1000000;
-    zoneRadiusSq = (a->radius*9)*(b->radius*9);
+    zoneRadiusSq = (a->radius*10)*(b->radius*10);
 }
 
 void flockPair::update()

@@ -12,7 +12,7 @@
 particle::particle()
 {
     position = vec3(0, 0, 0);
-    radius = randFloat(1.0,2.0);
+    radius = randFloat(1.0,2.5);
     mass = radius*.6;
     
     moving = true;
@@ -34,7 +34,7 @@ void particle::update()
     prevPosition = position;
     
     
-    //force += vec3(0, -.04, 0); //GRAVITY
+    force += vec3(0, -.03, 0); //GRAVITY
     /*vec3 grav = vec3()-position;
     grav = normalize(grav) * 0.15f;
     force += grav;*/
@@ -52,6 +52,9 @@ void particle::update()
     if (length2(velocity) > 8*8) velocity = normalize(velocity)*8.0f;
     
     position += velocity;
+    
+    position.y = max(position.y, -440.0f);
+    
     force = vec3();
 }
 

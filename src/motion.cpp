@@ -63,7 +63,7 @@ void motion::draw()
     for (auto p : particles)
     {
         gl::pushMatrices();
-        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-390,0) );
+        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-440,0) );
         gl::rotate( toRadians(90.0f), vec3(1,0,0) );
         gl::drawSolidCircle(vec2(), p->radius);
         gl::popMatrices();

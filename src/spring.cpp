@@ -13,7 +13,7 @@ spring::spring(particle* aa, particle* bb)
     a = aa;
     b = bb;
     k = .05;
-    d = 250.2;//length(a->position - b->position)*randFloat( .6, .9 );
+    d = randFloat(30.0, 50.0);//length(a->position - b->position)*randFloat( .6, .9 );
     drawing = false;
 }
 
@@ -41,7 +41,7 @@ void spring::update(float iterations)
 
 void spring::draw()
 {
-    if (!drawing) return;
+    //if (!drawing) return;
     if (a->drawing && b->drawing)
         gl::drawLine(a->position, b->position);
 }

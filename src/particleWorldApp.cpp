@@ -116,7 +116,7 @@ void particleWorldApp::mouseDown( MouseEvent event )
 
 void particleWorldApp::update()
 {
-    if (getElapsedFrames() % 550 == 0)
+    /*if (getElapsedFrames() % 550 == 0)
     {
         for(auto & sp : particles.spTest->springs)
         {
@@ -125,7 +125,7 @@ void particleWorldApp::update()
             particle * p;
             if (getElapsedFrames() < 600) p = new particle();
             else p = sp.a;
-            p->position = vec3(rp.x, -rp.y, randInt(-10, 10));
+            p->position = vec3(rp.x, -rp.y, randInt(-100, -90));
             sp.a = p;
             sp.a->moving = false;
             sp.d = 0;
@@ -144,7 +144,7 @@ void particleWorldApp::update()
             sp.a->moving = false;
             sp.d = 0;
         }
-    }
+    }*/
     if (running)
     {
         particles.update();
