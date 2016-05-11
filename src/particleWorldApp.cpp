@@ -1,3 +1,11 @@
+//
+//  particleController.cpp
+//  particleWorld
+//
+//  Created by Luke Purcell on 5/1/16.
+//  COPYRIGHT 2016
+//
+
 #include <list>
 #include <vector>
 
@@ -43,19 +51,13 @@ void particleWorldApp::setup()
     logoOffset = 0.0;
     
     timeline().apply( &logoScale, 0.85f, 1.5f, EaseInOutQuad());
-    //timeline().appendTo( &logoScale, 0.0f, 0.5f, EaseOutAtan() );
     timeline().apply( &logoAlpha, 1.0f, 1.5f, EaseInOutQuad());
-    //timeline().appendTo( &logoAlpha, 0.0f, 0.5f, EaseOutAtan() );
+
     
     timeline().apply( &logoOffset, 900.0f, 1.0f, EaseInBack()).timelineEnd();
+    
     timeline().appendTo( &logoAlpha, 0.0f, 1.0f, EaseOutAtan() );
     timeline().appendTo( &logoScale, 1.1f, 1.0f, EaseOutCirc() );
-    
-    //TimelineItemRef ti = TimelineItem(timeline(), &logoScale, 0.0f, 1.0f);
-    
-    //timeline().apply( &logoScale, 1.0f, 1.0f, EaseInQuad() );
-    //timeline().app
-    //timeline().appendTo( &pos, Vec2f( 10, 20 ), 2.0f );
     
     running = true;
     
@@ -65,86 +67,18 @@ void particleWorldApp::setup()
     cam.setFarClip(20000);
     
     voidImg = loadImage( loadResource("VoidResearch.png") );
-    instinctImg = loadImage( loadResource("instinct.png") );
-    
-    Surface::Iter iter = voidImg.getIter();
-    while( iter.line() ) {
-        while( iter.pixel() ) {
-            if (iter.a() > 128)
-            {
-                vec2 p = iter.getPos();
-                p -= vec2((int)(1280/2), (int)(800/2));
-                voidPoints.push_back(p);
-            }
-        }
-    }
-    
-    iter = instinctImg.getIter();
-    while( iter.line() ) {
-        while( iter.pixel() ) {
-            if (iter.a() > 128)
-            {
-                vec2 p = iter.getPos();
-                p -= vec2((int)(1280/2), (int)(800/2));
-                instinctPoints.push_back(p);
-            }
-        }
-    }
-    
-    
-    for (int i = 1; i < MAX_PARTICLES-100; i++)
-    {
-        //int randPoint = randInt(0, voidPoints.size());
-        //vec2 rp = voidPoints[randPoint];
-        //particles.particleArray[i].position = vec3(rp.x, -rp.y, randInt(-50, 50));
-        //particles.particleArray[i].prevPosition = particles.particleArray[i].position;
-        particles.particleArray[i].drawing = true;
-        particles.particleArray[i].moving = true;
-    }
+
     gl::enableDepthWrite();
     gl::enableDepthRead();
 }
 
 void particleWorldApp::mouseDown( MouseEvent event )
 {
-    if (getElapsedSeconds() > .1)
-    {
-        //running = !running;
-        particles.test->running = !particles.test->running;
-    }
+    running = !running;
 }
 
 void particleWorldApp::update()
 {
-    /*if (getElapsedFrames() % 550 == 0)
-    {
-        for(auto & sp : particles.spTest->springs)
-        {
-            int randPoint = randInt(0, instinctPoints.size());
-            vec2 rp = instinctPoints[randPoint];
-            particle * p;
-            if (getElapsedFrames() < 600) p = new particle();
-            else p = sp.a;
-            p->position = vec3(rp.x, -rp.y, randInt(-100, -90));
-            sp.a = p;
-            sp.a->moving = false;
-            sp.d = 0;
-        }
-    }
-    
-    if (getElapsedFrames() % 1200 == 0)
-    {
-        for(auto & sp : particles.spTest->springs)
-        {
-            int randPoint = randInt(0, voidPoints.size());
-            vec2 rp = voidPoints[randPoint];
-            particle * p = sp.a;
-            p->position = vec3(rp.x, -rp.y, randInt(-10, 10));
-            sp.a = p;
-            sp.a->moving = false;
-            sp.d = 0;
-        }
-    }*/
     if (running)
     {
         particles.update();
@@ -170,31 +104,27 @@ void particleWorldApp::draw()
         gl::ScopedGlslProg shade(shader);
         gl::translate(0,-50-getWindowHeight()/2, 0);
         gl::color(.75, .75, .75);
-        //gl::disableDepthWrite();
         gl::drawCube(vec3(), vec3(20000, 5,20000));
-        //gl::enableDepthWrite();
         gl::popMatrices();
     }
     
+    //Draw particle controller
     particles.draw();
     
     
     //Draw logo ^_^
-    //gl::setMatricesWindow(getWindowWidth(), getWindowHeight());
-    gl::disableDepthWrite();
-    //gl::disableDepthRead();
-    gl::enableAlphaBlending();
-    //float alpha = min( (float)(getElapsedSeconds()/2.0f), 1.0f);
-    gl::color(0, 0, 0, logoAlpha);
-    gl::TextureRef tex = gl::Texture2d::create(voidImg);
-    //gl::translate(100, 100);
-    Rectf x( 0, 0, voidImg.getWidth(), voidImg.getHeight() );
-    x.scale( vec2( logoScale, -logoScale ) );
-    x.offsetCenterTo( vec2(0, -logoOffset) );
-    //x.offsetCenterTo( vec2(0, -getElapsedSeconds()*80.0f) ); //Slide down
-    gl::draw(tex, x );
-    gl::disableAlphaBlending();
-    //gl::draw(tex);
+    if (logoAlpha > 0.001)
+    {
+        gl::disableDepthWrite();
+        gl::enableAlphaBlending();
+        gl::color(0, 0, 0, logoAlpha);
+        gl::TextureRef tex = gl::Texture2d::create(voidImg);
+        Rectf x( 0, 0, voidImg.getWidth(), voidImg.getHeight() );
+        x.scale( vec2( logoScale, -logoScale ) );
+        x.offsetCenterTo( vec2(0, -logoOffset) );
+        gl::draw(tex, x );
+        gl::disableAlphaBlending();
+    }
 }
 
 CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(4) ), [&]( App::Settings *settings ) {

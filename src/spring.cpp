@@ -13,8 +13,8 @@ spring::spring(particle* aa, particle* bb)
     a = aa;
     b = bb;
     k = .05;
-    d = randFloat(30.0, 50.0);//length(a->position - b->position)*randFloat( .6, .9 );
-    drawing = false;
+    d = 10.0;//length(a->position - b->position);
+    drawing = true;
 }
 
 void spring::update(float iterations)
@@ -26,22 +26,19 @@ void spring::update(float iterations)
     force = normalize(force);
     float f = -1 * k * x;
     force *= f;
-    force -= (0.07f * (a->velocity - b->velocity));
+    force -= (0.02f * (a->velocity - b->velocity));
     
-    if (x < 16 && d == 0) { //"ARRIVE" spring
+    if (x < 16 && d == 0) { //"ARRIVE" spring when spring rest length is 0
         force = force - a->velocity;
     }
     
-    //if (abs(x) < 15) {drawing = false; return;}
-    //else {drawing = false;}
-    
-    a->addForce(force);
-    b->addForce(-force);
+    if (a->moving) a->addForce(force);
+    if (b->moving) b->addForce(-force);
 }
 
 void spring::draw()
 {
-    //if (!drawing) return;
+    if (!drawing) return;
     if (a->drawing && b->drawing)
         gl::drawLine(a->position, b->position);
 }

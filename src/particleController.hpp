@@ -21,6 +21,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Perlin.h"
 #include "cinder/Rand.h"
+#include "cinder/Timeline.h"
 
 #include "springMotion.hpp"
 #include "flockingMotion.hpp"
@@ -29,7 +30,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 800
+#define MAX_PARTICLES 1200
 
 class particleController
 {
@@ -39,7 +40,7 @@ public:
     gl::GlslProgRef shader;
     
     particle particleArray[MAX_PARTICLES];
-    list<particle *> activeParticles, inactiveParticles;
+    list<particle *> activeParticles, inactiveParticles, transitionParticles;
     Perlin noise;
     flockingMotion * test;
     springMotion * spTest;

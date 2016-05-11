@@ -13,11 +13,11 @@ particle::particle()
 {
     position = vec3(0, 0, 0);
     radius = randFloat(1.0,2.5);
-    mass = radius*.6;
+    mass = radius*.4;
     
     moving = true;
     drawing = true;
-    lerpControl = 0.8f;
+    lerpControl = 0.95f;
     neighbors = 0;
 }
 
@@ -30,38 +30,39 @@ void particle::update()
 {
     if (!moving) return;
     
+    mass = radius*.4;
+    
     velocity = position - prevPosition;
     prevPosition = position;
     
-    
-    force += vec3(0, -.03, 0); //GRAVITY
-    /*vec3 grav = vec3()-position;
-    grav = normalize(grav) * 0.15f;
-    force += grav;*/
-    
     force /= mass;
-    //if (length2(force) > .4*.4) force = normalize(force)*0.4f;
-    
-    //force *= vec3(1,1,0); //limit force dimentions
+    //force += vec3(0, -.05f, 0);
+    //if (length2(force) > .04*.04) force = normalize(force)*0.04f; // limit force
     
     vec3 targetVelocity = velocity;
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
     velocity *= .998;
-    if (length2(velocity) > 8*8) velocity = normalize(velocity)*8.0f;
+    if (length2(velocity) > 6*6) velocity = normalize(velocity)*6.0f;
     
     position += velocity;
     
-    position.y = max(position.y, -440.0f);
+    position.y = max(position.y, -380.0f); //Floor
+    position.y = min(position.y, 380.0f); //Ceil
+    
+    position.x = max(position.x, -620.0f); //Floor
+    position.x = min(position.x, 620.0f); //Ceil
+    
+    position.z = max(position.z, -440.0f); //Floor
+    position.z = min(position.z, 240.0f); //Ceil
     
     force = vec3();
 }
 
 void particle::draw()
 {
-    //if (!drawing) return;
+    if (!drawing) return;
     
     gl::drawCube(position, vec3(30));
-    //gl::drawSolidCircle(vec2(position.x, position.z), radius);
 }

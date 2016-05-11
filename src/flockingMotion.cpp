@@ -30,7 +30,7 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     l = 1000000;
-    zoneRadiusSq = (a->radius*10)*(b->radius*10);
+    zoneRadiusSq = 20*20;//(a->radius*13)*(b->radius*13);
 }
 
 void flockPair::update()
@@ -38,14 +38,14 @@ void flockPair::update()
     vec3 force = (a->position - b->position);
     l = length2(force);
     
-    
+    /*
     //Crowding
-    /*float radiusAdjustA = 1.0f-(min((float)a->neighbors, 30.0f)/75.0f);
+    float radiusAdjustA = 1.0f-(min((float)a->neighbors, 70.0f)/75.0f);
     //radiusAdjustA += 0.5f;
-    float radiusAdjustB = 1.0f-(min((float)b->neighbors, 30.0f)/75.0f);
+    float radiusAdjustB = 1.0f-(min((float)b->neighbors, 70.0f)/75.0f);
     //radiusAdjustB += 0.5f;
-    zoneRadiusSq = (a->radius*12*radiusAdjustA)*(b->radius*12*radiusAdjustB);*/
-
+    zoneRadiusSq = (a->radius*30*radiusAdjustA)*(b->radius*30*radiusAdjustB);
+    */
     
     if (l > zoneRadiusSq) return;
     a->neighbors++;
@@ -60,7 +60,7 @@ void flockPair::update()
         newl = p/inp;
         newl = sine( newl * M_PI) * 0.5 + 0.5 ;
         newl = newl*newl;
-        newl *= .55;
+        newl *= .35;
         
         force = normalize(force)*newl;
         a->addForce(force);
@@ -78,7 +78,7 @@ void flockPair::update()
         newl = p-(inp);
         newl = newl/((midp)-(inp));
         newl = ( 0.5 - sine( newl * M_PI * 2.0) * 0.5);
-        newl *= .02;
+        newl *= .05;
         
         force = b->velocity * newl;
         a->addForce(force);
@@ -144,17 +144,5 @@ void flockingMotion::update(float forceScale)
 
 void flockingMotion::draw()
 {
-    /*if (!drawing) return;
-    if (0)
-    {
-        //gl::enableAdditiveBlending();
-        gl::color(.6, .6, .6);
-        for (auto f = flock.begin(); f != flock.end(); f++)
-        {
-            (*f).draw();
-        }
-        //gl::disableBlending();
-    }
-    gl::color(.15, .15, .15);*/
-    motion::draw();
+    //motion::draw();
 }
