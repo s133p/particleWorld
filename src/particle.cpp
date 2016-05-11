@@ -37,14 +37,14 @@ void particle::update()
     
     force /= mass;
     //force += vec3(0, -.05f, 0);
-    //if (length2(force) > .04*.04) force = normalize(force)*0.04f; // limit force
+    if (length2(force) > .1*.1) force = normalize(force)*0.1f; // limit force
     
     vec3 targetVelocity = velocity;
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
     velocity *= .998;
-    if (length2(velocity) > 6*6) velocity = normalize(velocity)*6.0f;
+    if (length2(velocity) > 3*3) velocity = normalize(velocity)*3.0f;
     
     position += velocity;
     

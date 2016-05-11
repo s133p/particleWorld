@@ -49,6 +49,7 @@ particleController::particleController()
         timeline().applyPtr( &(it->radius), 2.0f, 2.5f, EaseInAtan() );
     }
     
+	test = nullptr;
     spTest = new springMotion();
     
     //INSTANCTED DRAWING setup
@@ -95,38 +96,38 @@ void particleController::update()
         spTest->update(.95);
     //}
     
-    if ( getElapsedFrames() == 32*12 )
+    if ( getElapsedFrames() == 32*12 && !test )
     {
         test = new flockingMotion(activeParticles);
     }
     
-    if (getElapsedFrames() > 32*12 && getElapsedFrames() < 32*40)
+    if (test)
     {
         test->update(0.25f);
     }
     
     
-    if (getElapsedFrames() > 32*40 && activeParticles.size() > 1)
-    {
-        inactiveParticles.push_front( activeParticles.front() );
-        activeParticles.pop_front();
-        
-        if (activeParticles.size() > 238)
-        {
-            inactiveParticles.push_front( activeParticles.front() );
-            activeParticles.pop_front();
-            inactiveParticles.push_front( activeParticles.front() );
-            activeParticles.pop_front();
-            inactiveParticles.push_front( activeParticles.front() );
-            activeParticles.pop_front();
-        }
-    }
-    if (activeParticles.size() == 228)
-    {
-        timeline().applyPtr( &(activeParticles.back()->position), vec3(), 1.75f, EaseInAtan() );
-        timeline().applyPtr( &(activeParticles.back()->radius), 82.0f, 2.0f, EaseInAtan() );
-        timeline().appendToPtr( &(activeParticles.back()->radius), 0.1f, .85f, EaseInAtan() );
-    }
+//     if (getElapsedFrames() > 32*40 && activeParticles.size() > 1)
+//     {
+//         inactiveParticles.push_front( activeParticles.front() );
+//         activeParticles.pop_front();
+//         
+//         if (activeParticles.size() > 238)
+//         {
+//             inactiveParticles.push_front( activeParticles.front() );
+//             activeParticles.pop_front();
+//             inactiveParticles.push_front( activeParticles.front() );
+//             activeParticles.pop_front();
+//             inactiveParticles.push_front( activeParticles.front() );
+//             activeParticles.pop_front();
+//         }
+//     }
+//     if (activeParticles.size() == 228)
+//     {
+//         timeline().applyPtr( &(activeParticles.back()->position), vec3(), 1.75f, EaseInAtan() );
+//         timeline().applyPtr( &(activeParticles.back()->radius), 82.0f, 2.0f, EaseInAtan() );
+//         timeline().appendToPtr( &(activeParticles.back()->radius), 0.1f, .85f, EaseInAtan() );
+//     }
     
     vec4 *positions = (vec4*)mInstanceDataVbo->map(GL_WRITE_ONLY);
     
@@ -147,7 +148,7 @@ void particleController::update()
 void particleController::draw()
 {
     gl::color(.4, .4, .4);
-    spTest->draw();
+    //spTest->draw();
     
     mBox->drawInstanced( activeParticles.size() );
 }
