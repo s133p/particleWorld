@@ -8,7 +8,7 @@ An ongoing art/code project exploring particle interactions. Written in C++ for 
 
 ## Screenshots
 
- OLD | SCEENS 
------------- | -------------
+
 ![BlueOrange](/screenshots/BlueOrange.png?raw=true) | ![BlueOrange](/screenshots/Flock.png?raw=true)
+------------ | -------------
 ![BlueOrange](/screenshots/Shadows.png?raw=true) | ![BlueOrange](/screenshots/VoidResearch.png?raw=true)
