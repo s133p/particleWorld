@@ -40,6 +40,9 @@ public:
     gl::GlslProgRef shader;
     
     particle particleArray[MAX_PARTICLES];
+    
+    //?? These should be moved to shared_ptrs
+    //?? then the springs/flocks/etc can use weak_ptrs that transition to null
     list<particle *> activeParticles, inactiveParticles, transitionParticles;
     Perlin noise;
     flockingMotion * test;

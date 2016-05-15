@@ -106,7 +106,7 @@ void particleController::update()
     }
     
     
-    if (getElapsedFrames() > 32*40 && activeParticles.size() > 1)
+    /*if (getElapsedFrames() > 32*40 && activeParticles.size() > 1)
     {
         inactiveParticles.push_front( activeParticles.front() );
         activeParticles.pop_front();
@@ -120,8 +120,9 @@ void particleController::update()
             inactiveParticles.push_front( activeParticles.front() );
             activeParticles.pop_front();
         }
-    }
-    if (activeParticles.size() == 228)
+    }*/
+    
+    if (getElapsedFrames() > 32*40)
     {
         timeline().applyPtr( &(activeParticles.back()->position), vec3(), 1.75f, EaseInAtan() );
         timeline().applyPtr( &(activeParticles.back()->radius), 82.0f, 2.0f, EaseInAtan() );
