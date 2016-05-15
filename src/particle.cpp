@@ -37,25 +37,25 @@ void particle::update()
     
     force /= mass;
     //force += vec3(0, -.05f, 0);
-    //if (length2(force) > .04*.04) force = normalize(force)*0.04f; // limit force
+    if (length2(force) > .1*.1) force = normalize(force)*0.1f; // limit force
     
     vec3 targetVelocity = velocity;
     
     targetVelocity += force;
     velocity = lerp(velocity, targetVelocity, lerpControl);
     velocity *= .998;
-    if (length2(velocity) > 6*6) velocity = normalize(velocity)*6.0f;
+    if (length2(velocity) > 3*3) velocity = normalize(velocity)*3.0f;
     
     position += velocity;
     
     position.y = max(position.y, -380.0f); //Floor
     position.y = min(position.y, 380.0f); //Ceil
     
-    position.x = max(position.x, -620.0f); //Floor
-    position.x = min(position.x, 620.0f); //Ceil
+    position.x = max(position.x, -620.0f); //wall left
+    position.x = min(position.x, 620.0f); //wall right
     
-    position.z = max(position.z, -440.0f); //Floor
-    position.z = min(position.z, 240.0f); //Ceil
+    position.z = max(position.z, -440.0f); //wall back
+    position.z = min(position.z, 240.0f); //wall front
     
     force = vec3();
 }
