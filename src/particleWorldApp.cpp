@@ -94,7 +94,7 @@ void particleWorldApp::draw()
     gl::enableDepthWrite();
     
     gl::translate(getWindowWidth()/2, getWindowHeight()/2, -400);
-    gl::rotate(toRadians(-15.0f), vec3(0,1,0));
+    gl::rotate(toRadians(-14.0f + app::getElapsedFrames()/-2.0f), vec3(0,1,0));
     
     
     //Draw "floor" with scoped fog shader

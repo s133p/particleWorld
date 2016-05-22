@@ -15,6 +15,7 @@
 #define particleController_hpp
 
 #include <list>
+#include <algorithm>
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -30,7 +31,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define MAX_PARTICLES 600
+#define MAX_PARTICLES 800
 
 class particleController
 {

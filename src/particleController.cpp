@@ -29,7 +29,7 @@ particleController::particleController()
     }
 
     //Move single particle from inactive to active
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 1; i++)
     {
         activeParticles.push_front(inactiveParticles.front());
         activeParticles.front()->radius = 32.0f;
@@ -43,10 +43,11 @@ particleController::particleController()
         //it->position = vec3(0,0, -200);
         it->prevPosition = it->position+ randVec3()*vec3(4.5f);
         it->drawing = true;
-        it->radius = 48.0f;
+        it->radius = 30.0f;
         it->moving = true;
         
-        timeline().applyPtr( &(it->radius), 2.0f, 2.5f, EaseInAtan() );
+        timeline().applyPtr( &(it->radius), 10.0f, 2.5f, EaseInAtan() );
+                            //&(it->radius), 20.0f, 2.5f, EaseInAtan() );
     }
     
 	test = nullptr;
@@ -54,9 +55,9 @@ particleController::particleController()
     
     //INSTANCTED DRAWING setup
 	shader = gl::GlslProg::create(loadAsset("shader.vert"), loadAsset("shader.frag"));
-    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Cube() >> geom::Scale(2.0) ) ;
+    gl::VboMeshRef mesh = gl::VboMesh::create( geom::Sphere() >> geom::Scale(2.0) ) ;
     
-    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), positions.data(), GL_STREAM_DRAW );
+    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), positions.data(), GL_DYNAMIC_DRAW );
     geom::BufferLayout instanceDataLayout;
     instanceDataLayout.append( geom::Attrib::CUSTOM_0, 4, sizeof(vec4), 0, 1 /* per instance */ );
     mesh->appendVbo( instanceDataLayout, mInstanceDataVbo );
@@ -65,21 +66,27 @@ particleController::particleController()
 
 void particleController::update()
 {
-    if(getElapsedFrames() > 150-15 && getElapsedFrames()%16 == 0 && inactiveParticles.size() > 0 && getElapsedFrames() < 32*12)
+    if(getElapsedFrames() > 150-15 && getElapsedFrames()%8 == 0 && inactiveParticles.size() > 0 && getElapsedFrames() < 32*14)
     {
         list<particle*> tempParticles;
-        while (transitionParticles.size() > 0 )
+        int count = 0;
+        while (transitionParticles.size() > 0 && ++count < 80)
         {
             particle * p = transitionParticles.front();
-            for (int i = 0; i < 2 && inactiveParticles.size() > 0; i++)
+            int numSplits = 4;//ci::randInt(2,5);
+            for (int i = 0; i < numSplits && inactiveParticles.size() > 0; ++i)
             {
                 activeParticles.push_front( inactiveParticles.front() );
-                activeParticles.front()->radius = 2.0f;
+                if (p->radius * 0.65f > 0.2)
+                    activeParticles.front()->radius = p->radius * 0.65f;
+                else
+                    activeParticles.front()->radius = p->radius;
                 activeParticles.front()->position = p->position + p->velocity*randFloat(.9, 1.9);
                 activeParticles.front()->prevPosition = p->position+ randVec3();
                 activeParticles.front()->drawing = true;
                 activeParticles.front()->moving= true;
                 spTest->addSpring( p, activeParticles.front() );
+                
                 tempParticles.push_front(activeParticles.front());
                 inactiveParticles.pop_front();
             }
@@ -87,47 +94,40 @@ void particleController::update()
         }
         for (auto it : tempParticles)
         {
-            transitionParticles.push_front(it);
+            transitionParticles.push_back(it);
         }
     }
     
     //if (getElapsedFrames() < 32*40)
     //{
-        spTest->update(.95);
+        spTest->update(.25);
     //}
     
-    if ( getElapsedFrames() == 32*12 && !test )
+    if ( getElapsedFrames() == 32*14 && !test )
     {
         test = new flockingMotion(activeParticles);
     }
     
-    if (test)
+    if (test && getElapsedFrames() < 32*120)
     {
-        test->update(0.25f);
+        test->update(0.7f);
     }
     
-    
-//     if (getElapsedFrames() > 32*40 && activeParticles.size() > 1)
-//     {
-//         inactiveParticles.push_front( activeParticles.front() );
-//         activeParticles.pop_front();
-//         
-//         if (activeParticles.size() > 238)
-//         {
-//             inactiveParticles.push_front( activeParticles.front() );
-//             activeParticles.pop_front();
-//             inactiveParticles.push_front( activeParticles.front() );
-//             activeParticles.pop_front();
-//             inactiveParticles.push_front( activeParticles.front() );
-//             activeParticles.pop_front();
-//         }
-//     }
-//     if (activeParticles.size() == 228)
-//     {
-//         timeline().applyPtr( &(activeParticles.back()->position), vec3(), 1.75f, EaseInAtan() );
-//         timeline().applyPtr( &(activeParticles.back()->radius), 82.0f, 2.0f, EaseInAtan() );
-//         timeline().appendToPtr( &(activeParticles.back()->radius), 0.1f, .85f, EaseInAtan() );
-//     }
+    if (getElapsedFrames() == 32*30){
+        spTest->springs.clear();
+    }
+    if (getElapsedFrames() > 32*38 && getElapsedFrames() < 32*70 && getElapsedFrames()%2 == 0){
+        for (int i = 0; i < 2; ++i){
+            uint32_t a = randInt(activeParticles.size());
+            uint32_t b = randInt(activeParticles.size());
+            auto it = find(begin(spTest->particles), end(spTest->particles), &particleArray[a]);
+            auto it2 = find(begin(spTest->particles), end(spTest->particles), &particleArray[b]);
+            if (it == end(spTest->particles) || it2 == end(spTest->particles)){
+                if (a != b)
+                    spTest->addSpring(&particleArray[a], &particleArray[b]);
+            }
+        }
+    }
     
     vec4 *positions = (vec4*)mInstanceDataVbo->map(GL_WRITE_ONLY);
     
@@ -135,7 +135,7 @@ void particleController::update()
     {
         if (it->moving)
         {
-            it->addForce( noise.dfBm(it->position*0.06f) * 0.045f );
+            it->addForce( noise.dfBm(it->position*0.06f) * 0.145f );
             it->update();
             *positions = vec4(it->position, it->radius);
             
@@ -147,6 +147,7 @@ void particleController::update()
 
 void particleController::draw()
 {
+    gl::translate(vec3(0,50,0));
     gl::color(.4, .4, .4);
     //spTest->draw();
     

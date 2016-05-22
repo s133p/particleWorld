@@ -16,12 +16,12 @@ float sine(float x)
     const float B = 4/M_PI;
     const float C = -4/(M_PI*M_PI);
     
-    float y = B * x + C * x * abs(x);
+    float y = B * x + C * x * glm::abs(x);
     
     const float Q = 0.775;
     const float P = 0.225;
     
-    y =  Q * y + P * y * abs(y);
+    y =  Q * y + P * y * glm::abs(y);
     return y;
 }
 
@@ -30,7 +30,8 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     l = 1000000;
-    zoneRadiusSq = 20*20;//(a->radius*13)*(b->radius*13);
+    const float ZONE_MULT = 74.0;
+    zoneRadiusSq = (a->radius*a->radius*ZONE_MULT)*(b->radius*b->radius*ZONE_MULT);
 }
 
 void flockPair::update()
@@ -48,44 +49,44 @@ void flockPair::update()
     */
     
     if (l > zoneRadiusSq) return;
-    a->neighbors++;
-    b->neighbors++;
+    //a->neighbors++;
+    //b->neighbors++;
 
     float p = l/(zoneRadiusSq);
-    float inp = .55;
-    float midp = .75;
+    float inp  = 1.0;//0.55;
+    float midp = 0.8;
     float newl;
     
     if (p < inp){ //repel
         newl = p/inp;
-        newl = sine( newl * M_PI) * 0.5 + 0.5 ;
-        newl = newl*newl;
-        newl *= .35;
+        newl = glm::cos( newl * M_PI) * 0.5 + 0.5 ;
+        //newl = newl*newl;
+        newl *= .45;
         
         force = normalize(force)*newl;
         a->addForce(force);
         b->addForce(-force);
-    }else if (p > midp){ // attract
+    }/*else if (p > midp){ // attract
         newl = p-midp;
-        newl = ( 0.5 - sine( newl * M_PI * 2.0) * 0.5);
-        newl *= .25;
+        newl = ( 0.5 - glm::cos( newl * M_PI * 2.0) * 0.5);
+        newl *= .45;
         
         
         force = normalize(force)*newl;
         a->addForce(-force);
         b->addForce(force);
-    }else{ //align
+    }  else{ //align
         newl = p-(inp);
         newl = newl/((midp)-(inp));
-        newl = ( 0.5 - sine( newl * M_PI * 2.0) * 0.5);
-        newl *= .05;
+        newl = ( 0.5 - glm::cos( newl * M_PI * 2.0) * 0.5);
+        newl *= .04;
         
         force = b->velocity * newl;
         a->addForce(force);
         
         force = a->velocity * newl;
         b->addForce(force);
-    }
+    }*/
 
 }
 
@@ -106,11 +107,11 @@ flockingMotion::flockingMotion()
 flockingMotion::flockingMotion(list<particle*> & availableParticles) : motion(availableParticles)
 {
     
-    for (auto it = particles.begin(); it != particles.end(); it++)
+    for (auto it = particles.begin(); it != particles.end(); ++it)
     {
         auto it2 = it;
-        it2++;
-        for (; it2 != particles.end(); it2++)
+        ++it2;
+        for (; it2 != particles.end(); ++it2)
         {
             flockPair fP( (*it), (*it2) );
             flock.push_back(fP);
@@ -125,21 +126,25 @@ void flockingMotion::update(float forceScale)
     
     motion::saveForce();
     
-    for (auto f = flock.begin(); f != flock.end(); f++)
+    for (auto f = flock.begin(); f != flock.end(); ++f)
     {
         (*f).update();
         
     }
+    
+    /*for (auto p : particles)
+    {
+        static const float MAX_FORCE = .27;
+        p->force = p->force - p->velocity;
+        if (length2(p->force) > MAX_FORCE*MAX_FORCE)
+            p->force = normalize(p->force)*MAX_FORCE;
+        else
+            p->force *= forceScale;
+            
+    }*/
     motion::update(forceScale);
     
     motion::avgForce();
-    
-    for (auto f = flock.begin(); f != flock.end(); f++)
-    {
-        (*f).a->neighbors = 0;
-        (*f).b->neighbors = 0;
-        
-    }
 }
 
 void flockingMotion::draw()
