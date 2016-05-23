@@ -12,8 +12,8 @@ spring::spring(particle* aa, particle* bb)
 {
     a = aa;
     b = bb;
-    k = .18;
-    d = 50.0f;// * length(a->position - b->position);
+    k = .16;
+    d = 30.0f;// * length(a->position - b->position);
     drawing = true;
 }
 

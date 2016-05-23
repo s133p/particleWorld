@@ -4,7 +4,7 @@ in vec4	Color;
 in vec3	Normal;
 
 const vec4 fogColor = vec4(.98, .98,.98, 1.0);
-const float FogDensity = 0.0005;
+const float FogDensity = 0.0002;
 
 out vec4 			oColor;
 

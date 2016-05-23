@@ -34,7 +34,7 @@ void springMotion::update(float forceScale)
     
     for (auto & s : springs)
     {
-        s.update(1.0);
+        s.update(forceScale);
     }
     
     motion::update(forceScale);

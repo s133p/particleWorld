@@ -46,6 +46,7 @@ class particleWorldApp : public App {
 
 void particleWorldApp::setup()
 {
+    hideCursor();
     logoScale = 0.0f;
     logoAlpha = 0.0f;
     logoOffset = 0.0;
@@ -63,7 +64,7 @@ void particleWorldApp::setup()
     
 	shader = gl::GlslProg::create(loadAsset("shader.vert"), loadAsset("shader.frag"));
     
-    cam = CameraPersp(1280, 800, 35);
+    cam = CameraPersp(getWindowWidth(), getWindowHeight(), 35);
     cam.setFarClip(20000);
     
 	voidImg = loadImage(loadAsset("VoidResearch.png"));
@@ -93,8 +94,8 @@ void particleWorldApp::draw()
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
-    gl::translate(getWindowWidth()/2, getWindowHeight()/2, -400);
-    gl::rotate(toRadians(-14.0f + app::getElapsedFrames()/-2.0f), vec3(0,1,0));
+    gl::translate(getWindowWidth()/2, getWindowHeight()/2, -500);
+    gl::rotate(toRadians(-16.0f /*+ app::getElapsedFrames()/-2.0f)*/), vec3(0,1,0));
     
     
     //Draw "floor" with scoped fog shader
@@ -129,7 +130,8 @@ void particleWorldApp::draw()
 
 CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(4) ), [&]( App::Settings *settings ) {
     
-    settings->setWindowSize(1280, 800);
+    //settings->setWindowSize(1280, 800);
+    settings->setFullScreen();
     settings->setHighDensityDisplayEnabled();
     settings->setFrameRate(60.0);
     

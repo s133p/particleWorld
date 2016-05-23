@@ -55,17 +55,19 @@ void motion::update(float forceScale)
 
 void motion::draw()
 {
+    return;
     if (!drawing) return;
     
-    
+    gl::disableDepthWrite();
     //Draws "shadows"
-    gl::color(.3,.3,.3);
+    gl::color(.35,.35,.35);
     for (auto p : particles)
     {
         gl::pushMatrices();
-        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-440,0) );
+        gl::translate( (p->position*vec3(1,0,1)) + vec3(0,-600,0) );
         gl::rotate( toRadians(90.0f), vec3(1,0,0) );
-        gl::drawSolidCircle(vec2(), p->radius);
+        gl::drawSolidCircle(vec2(), p->radius*1.5f);
         gl::popMatrices();
     }
+    gl::enableDepthWrite();
 }

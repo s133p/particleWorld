@@ -36,7 +36,7 @@ void particle::update()
     prevPosition = position;
     
     force /= mass;
-    force += vec3(0, -.1f, 0);
+    force += vec3(0, -.02f, 0);
     //if (length2(force) > .2*.2) force = normalize(force)*0.2f; // limit force
 
     
@@ -56,8 +56,8 @@ void particle::update()
     position.z = glm::max(position.z, -440.0f); //wall back
     position.z = glm::min(position.z, 240.0f); //wall front
     */
-    if(length2(position) > 400.0f*400.0f)
-        position = normalize(position)*400.0f;
+    if(length2(position) > 600.0f*600.0f)
+        position = normalize(position)*(600.0f);
      
     force = vec3(0);
 }
