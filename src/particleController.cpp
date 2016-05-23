@@ -73,12 +73,13 @@ void particleController::update()
         while (transitionParticles.size() > 0 && ++count < 80)
         {
             particle * p = transitionParticles.front();
-            int numSplits = ci::randInt(1,4);
+            int min = 2 >= activeParticles.size()/4? activeParticles.size()/4 : 2;
+            int numSplits = 1 + min;//ci::randInt(1,4);
             for (int i = 0; i < numSplits && inactiveParticles.size() > 0; ++i)
             {
                 activeParticles.push_front( inactiveParticles.front() );
-                if (p->radius * 0.72f > 0.6)
-                    activeParticles.front()->radius = p->radius * 0.72f;
+                if (p->radius * 0.64f > 1.1)
+                    activeParticles.front()->radius = p->radius * 0.64f;
                 else
                     activeParticles.front()->radius = p->radius;
                 activeParticles.front()->position = p->position + p->velocity*randFloat(.9, 1.9);
@@ -150,7 +151,7 @@ void particleController::update()
     if (app::getElapsedFrames() ==  32*116){
         activeParticles.clear();
         activeParticles.push_back(&particleArray[0]);
-        timeline().applyPtr(&(particleArray[0].radius), 0.1f, 1.0f, EaseInQuad());
+        timeline().applyPtr(&(activeParticles.front()->radius), 0.1f, 1.0f, EaseInQuad());
     }
         //activeParticles.clear();
     

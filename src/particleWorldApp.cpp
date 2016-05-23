@@ -46,7 +46,7 @@ class particleWorldApp : public App {
 
 void particleWorldApp::setup()
 {
-    hideCursor();
+    //hideCursor();
     logoScale = 0.0f;
     logoAlpha = 0.0f;
     logoOffset = 0.0;
@@ -94,7 +94,7 @@ void particleWorldApp::draw()
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
-    gl::translate(getWindowWidth()/2, getWindowHeight()/2, -500);
+    gl::translate(getWindowWidth()/2, getWindowHeight()/2, -1000);
     gl::rotate(toRadians(-16.0f /*+ app::getElapsedFrames()/-2.0f)*/), vec3(0,1,0));
     
     
@@ -103,7 +103,7 @@ void particleWorldApp::draw()
         gl::pushMatrices();
         
         gl::ScopedGlslProg shade(shader);
-        gl::translate(0,-50-getWindowHeight()/2, 0);
+        gl::translate(0,-200-getWindowHeight()/2, 0);
         gl::color(.75, .75, .75);
         gl::drawCube(vec3(), vec3(20000, 5,20000));
         gl::popMatrices();
@@ -130,8 +130,8 @@ void particleWorldApp::draw()
 
 CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(4) ), [&]( App::Settings *settings ) {
     
-    //settings->setWindowSize(1280, 800);
-    settings->setFullScreen();
+    settings->setWindowSize(1280, 800);
+    //settings->setFullScreen();
     settings->setHighDensityDisplayEnabled();
     settings->setFrameRate(60.0);
     
