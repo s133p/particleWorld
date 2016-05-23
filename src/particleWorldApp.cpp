@@ -28,6 +28,7 @@ class particleWorldApp : public App {
   public:
 	void setup() override;
 	void mouseDown( MouseEvent event ) override;
+	void keyUp(KeyEvent event) override;
 	void update() override;
 	void draw() override;
     
@@ -40,6 +41,7 @@ class particleWorldApp : public App {
     vector<vec2> voidPoints;
     gl::GlslProgRef shader;
     bool running;
+	bool mFullscreen;
     
     Anim<float> logoAlpha, logoScale, logoOffset;
 };
@@ -61,21 +63,32 @@ void particleWorldApp::setup()
     timeline().appendTo( &logoScale, 1.1f, 1.0f, EaseOutCirc() );
     
     running = true;
+	mFullscreen = false;
     
-	shader = gl::GlslProg::create(loadResource("shader.vert"), loadResource("shader.frag"));
+	shader = gl::GlslProg::create(loadAsset("shader.vert"), loadAsset("shader.frag"));
     
     cam = CameraPersp(getWindowWidth(), getWindowHeight(), 35);
     cam.setFarClip(20000);
     
-	voidImg = loadImage(loadResource("VoidResearch.png"));
+	voidImg = loadImage(loadAsset("VoidResearch.png"));
 
     gl::enableDepthWrite();
     gl::enableDepthRead();
 }
 
-void particleWorldApp::mouseDown( MouseEvent event )
+void particleWorldApp::mouseDown(MouseEvent event)
 {
-    running = !running;
+	running = !running;
+}
+
+void particleWorldApp::keyUp(KeyEvent event)
+{
+	if(event.getCode() == KeyEvent::KEY_ESCAPE){
+		quit();
+	}if(event.getCode() == KeyEvent::KEY_f){
+		mFullscreen = !mFullscreen;
+		setFullScreen(mFullscreen);
+	}
 }
 
 void particleWorldApp::update()
@@ -84,18 +97,24 @@ void particleWorldApp::update()
     {
         particles.update();
     }
+
+	if(app::getElapsedFrames() == (32 * 116) + 90){
+		quit();
+	}
 }
 
 void particleWorldApp::draw()
 {
     gl::clear( Color( .98, .98, .98 ) );
     
+	cam = CameraPersp(getWindowWidth(), getWindowHeight(), 35);
+	cam.setFarClip(20000);
     gl::setMatrices(cam);
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
     gl::translate(getWindowWidth()/2, getWindowHeight()/2, -1000);
-    gl::rotate(toRadians(-16.0f /*+ app::getElapsedFrames()/-2.0f)*/), vec3(0,1,0));
+    gl::rotate(toRadians(-16.0f + app::getElapsedFrames()/-2.0f), vec3(0,1,0));
     
     
     //Draw "floor" with scoped fog shader
@@ -128,11 +147,17 @@ void particleWorldApp::draw()
     }
 }
 
-CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(4) ), [&]( App::Settings *settings ) {
+CINDER_APP( particleWorldApp, RendererGl( RendererGl::Options().msaa(8) ), [&]( App::Settings *settings ) {
     
     settings->setWindowSize(1280, 800);
+	//vector<DisplayRef> displays = Display::getDisplays();
+
+	//if(displays.size() > 1) {
+
+		//settings->setDisplay(displays[1]);
+	//}
     //settings->setFullScreen();
-    settings->setHighDensityDisplayEnabled();
+    //settings->setHighDensityDisplayEnabled();
     settings->setFrameRate(60.0);
     
 } )
