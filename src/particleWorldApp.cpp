@@ -62,12 +62,12 @@ void particleWorldApp::setup()
     
     running = true;
     
-	shader = gl::GlslProg::create(loadAsset("shader.vert"), loadAsset("shader.frag"));
+	shader = gl::GlslProg::create(loadResource("shader.vert"), loadResource("shader.frag"));
     
     cam = CameraPersp(getWindowWidth(), getWindowHeight(), 35);
     cam.setFarClip(20000);
     
-	voidImg = loadImage(loadAsset("VoidResearch.png"));
+	voidImg = loadImage(loadResource("VoidResearch.png"));
 
     gl::enableDepthWrite();
     gl::enableDepthRead();
