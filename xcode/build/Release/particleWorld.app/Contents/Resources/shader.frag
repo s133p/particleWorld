@@ -4,7 +4,7 @@ in vec4	Color;
 in vec3	Normal;
 
 const vec4 fogColor = vec4(.98, .98,.98, 1.0);
-const float FogDensity = 0.0005;
+const float FogDensity = 0.00025;
 
 out vec4 			oColor;
 
@@ -17,8 +17,8 @@ void main( void )
     
     //compute distance used in fog equations
     dist = (gl_FragCoord.z / gl_FragCoord.w);
-    dist = max(dist-500, 0);
-    dist *= 1.2;
+    //dist = max(dist-600, 0);
+    //dist *= 1.2;
     
     // 20 - fog starts; 80 - fog ends
     //fogFactor = (1500.0 - dist)/(1500.0 - 400.0);
