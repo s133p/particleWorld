@@ -30,7 +30,7 @@ flockPair::flockPair(particle* aa, particle* bb)
     a = aa;
     b = bb;
     l = 1000000;
-    const float ZONE_MULT = 30.0;
+    const float ZONE_MULT = 20.0;
     zoneRadiusSq = (a->radius*a->radius*ZONE_MULT)*(b->radius*b->radius*ZONE_MULT);
 }
 

@@ -54,7 +54,7 @@ particleController::particleController()
     spTest = new springMotion();
     
     //INSTANCTED DRAWING setup
-	shader = gl::GlslProg::create(loadResource("shader.vert"), loadResource("shader.frag"));
+	shader = gl::GlslProg::create(loadAsset("shader.vert"), loadAsset("shader.frag"));
     gl::VboMeshRef mesh = gl::VboMesh::create( geom::Sphere().subdivisions(32) >> geom::Scale(2.0) ) ;
     
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), positions.data(), GL_DYNAMIC_DRAW );
@@ -153,7 +153,6 @@ void particleController::update()
         activeParticles.push_back(&particleArray[0]);
         timeline().applyPtr(&(activeParticles.front()->radius), 0.1f, 1.0f, EaseInQuad());
     }
-        //activeParticles.clear();
     
     mInstanceDataVbo->unmap();
 }

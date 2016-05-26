@@ -15,9 +15,9 @@ out highp vec3	Normal;
 void main( void )
 {
     vec4 p = ciPosition;
-    p.x *= vInstancePosition.w*.65;
-    p.y *= vInstancePosition.w*.65;
-    p.z *= vInstancePosition.w*.65;
+    p.x *= vInstancePosition.w;
+    p.y *= vInstancePosition.w;
+    p.z *= vInstancePosition.w;
 	gl_Position	= ciModelViewProjection * (  (p) + vec4( vInstancePosition.xyz, 0 ) );
 	/*if (Color.w > .7)
         Color = ciColor;
